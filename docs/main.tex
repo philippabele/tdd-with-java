@@ -1,0 +1,50 @@
+\documentclass[a4paper, 12pt, oneside]{scrbook}
+
+\input{settings.tex}
+
+\bibliography{bibliography.bib}
+\begin{document}
+
+\frontmatter
+
+% Hierin müssen Matrikelnummer Name usw. gesetzt werden.
+\input{prefix/title.tex}
+
+\pagenumbering{gobble}
+\input{prefix/eigenstaendigkeit.tex}
+
+\tableofcontents
+
+% Abbildungsverzeichnis
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{\listfigurename}
+\pagenumbering{Roman}
+\listoffigures
+
+% Tabellenverzeichnis
+% \cleardoublepage
+% \phantomsection
+% \addcontentsline{toc}{chapter}{\listtablename}
+% \listoftables
+
+%Codebeispiel Verzeichnis
+% \cleardoublepage
+% \phantomsection
+% \addcontentsline{toc}{chapter}{\lstlistlistingname}
+% \lstlistoflistings
+
+% Abkürzungsverzeichnis (siehe Ordner "prefix")
+\input{prefix/abbreviation.tex}
+
+\mainmatter
+
+% Inhalt (siehe Ordner "content") %
+\input{content/einleitung.tex}
+
+\backmatter
+\sloppy
+\printbibliography
+\addcontentsline{toc}{chapter}{Literaturverzeichnis}
+
+\end{document}
