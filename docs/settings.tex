@@ -1,0 +1,60 @@
+\usepackage[ngerman]{babel}		
+\usepackage[onehalfspacing]{setspace}  %Zeilenabstand 1.5
+\PassOptionsToPackage{hyphens}{url}\usepackage[hidelinks]{hyperref}
+
+\usepackage[backend=biber,style=numeric,sorting=none]{biblatex}
+\usepackage[T1]{fontenc}	  	
+\usepackage[utf8]{inputenc}
+\usepackage{acronym}
+\usepackage[left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm,includeheadfoot]{geometry} % 2.5cm Randabstand werden als Minimum von der DHBW vorgeschrieben
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{csquotes}
+\usepackage{fancyhdr}
+\usepackage{wrapfig}
+\usepackage{scrhack}
+
+\usepackage{blindtext}
+\usepackage[parfill]{parskip} % Entfernt Einrückung zu Beginn eines Paragraphen
+
+\renewcommand*{\headfont}{\normalfont}
+\renewcommand*{\multicitedelim}{\addsemicolon\space}
+\renewcommand*{\headrulewidth}{0pt}
+\renewcommand*{\arraystretch}{1.5}
+
+\setlength{\parskip}{1.5ex}
+
+\usepackage{comment}
+
+% Code Formatierung
+\usepackage{listings}
+\usepackage{color}
+
+\renewcommand{\lstlistingname}{Codebeispiel}
+\renewcommand{\lstlistlistingname}{Codebeispielverzeichnis}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+	language=Java,
+	morekeywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+	ndkeywords={class, export, boolean, throw, implements, import, this, await, async},
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\small\ttfamily},
+	numbers=none,
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	breaklines=true,
+	tabsize=3,
+	captionpos=b
+}
