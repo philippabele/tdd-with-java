@@ -1,0 +1,147 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global}
+    \entry{schatten_best_2010}{book}{}
+      \name{author}{6}{}{%
+        {{hash=b821672d764139f864bf0e8944c10462}{%
+           family={Schatten},
+           familyi={S\bibinitperiod},
+           given={Alexander},
+           giveni={A\bibinitperiod}}}%
+        {{hash=e18893616ac6ce9cc010ccfdd1222881}{%
+           family={Demolsky},
+           familyi={D\bibinitperiod},
+           given={Markus},
+           giveni={M\bibinitperiod}}}%
+        {{hash=c227cfed74aa34151609bc0b3c3d9bfc}{%
+           family={Winkler},
+           familyi={W\bibinitperiod},
+           given={Dietmar},
+           giveni={D\bibinitperiod}}}%
+        {{hash=11059ace3ea68636e85a2da4bde7d780}{%
+           family={Biffl},
+           familyi={B\bibinitperiod},
+           given={Stefan},
+           giveni={S\bibinitperiod}}}%
+        {{hash=b0b4813a5f6f53fb743c59d65a5ed510}{%
+           family={Gostischa-Franta},
+           familyi={G\bibinithyphendelim F\bibinitperiod},
+           given={Erik},
+           giveni={E\bibinitperiod}}}%
+        {{hash=186971f01cdfa6c428b7ccbc6767ebde}{%
+           family={Östreicher},
+           familyi={Ö\bibinitperiod},
+           given={Thomas},
+           giveni={T\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {de}%
+      }
+      \list{location}{1}{%
+        {Heidelberg}%
+      }
+      \list{publisher}{1}{%
+        {Spektrum Akademischer Verlag}%
+      }
+      \strng{namehash}{31102a3931a68465f2f1a32af48f6824}
+      \strng{fullhash}{7e6d3b7cc0e82ae94bd136a8d9b42a2d}
+      \strng{bibnamehash}{31102a3931a68465f2f1a32af48f6824}
+      \strng{authorbibnamehash}{31102a3931a68465f2f1a32af48f6824}
+      \strng{authornamehash}{31102a3931a68465f2f1a32af48f6824}
+      \strng{authorfullhash}{7e6d3b7cc0e82ae94bd136a8d9b42a2d}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{isbn}{978-3-8274-2486-0 978-3-8274-2487-7}
+      \field{title}{Best {Practice} {Software}-{Engineering}}
+      \field{urlday}{18}
+      \field{urlmonth}{3}
+      \field{urlyear}{2024}
+      \field{year}{2010}
+      \field{urldateera}{ce}
+      \verb{doi}
+      \verb 10.1007/978-3-8274-2487-7
+      \endverb
+      \verb{file}
+      \verb Full Text PDF:C\:\\Users\\isabe\\Zotero\\storage\\F2H9U6CI\\Schatten et al. - 2010 - Best Practice Software-Engineering.pdf:application/pdf
+      \endverb
+      \verb{urlraw}
+      \verb http://link.springer.com/10.1007/978-3-8274-2487-7
+      \endverb
+      \verb{url}
+      \verb http://link.springer.com/10.1007/978-3-8274-2487-7
+      \endverb
+      \keyw{Architektur,Entwicklung,Entwurf,Entwurfsmuster,Framework,Komponente,Modellierung,Projektmanagement,Qualitätssicherung,Software,Software-Architektur,Software-Entwicklung,Softwarearchitektur,Unified Modeling Language (UML),Vorgehensmodell}
+    \endentry
+    \entry{kleuker_qualitatssicherung_2019}{book}{}
+      \name{author}{1}{}{%
+        {{hash=9af4f54b4ad5717a00e51e40db399b4a}{%
+           family={Kleuker},
+           familyi={K\bibinitperiod},
+           given={Stephan},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {de}%
+      }
+      \list{location}{1}{%
+        {Wiesbaden}%
+      }
+      \list{publisher}{1}{%
+        {Springer Fachmedien}%
+      }
+      \strng{namehash}{9af4f54b4ad5717a00e51e40db399b4a}
+      \strng{fullhash}{9af4f54b4ad5717a00e51e40db399b4a}
+      \strng{bibnamehash}{9af4f54b4ad5717a00e51e40db399b4a}
+      \strng{authorbibnamehash}{9af4f54b4ad5717a00e51e40db399b4a}
+      \strng{authornamehash}{9af4f54b4ad5717a00e51e40db399b4a}
+      \strng{authorfullhash}{9af4f54b4ad5717a00e51e40db399b4a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{isbn}{978-3-658-24885-7 978-3-658-24886-4}
+      \field{shorttitle}{Qualitätssicherung durch {Softwaretests}}
+      \field{title}{Qualitätssicherung durch {Softwaretests}: {Vorgehensweisen} und {Werkzeuge} zum {Testen} von {Java}-{Programmen}}
+      \field{urlday}{18}
+      \field{urlmonth}{3}
+      \field{urlyear}{2024}
+      \field{year}{2019}
+      \field{urldateera}{ce}
+      \verb{doi}
+      \verb 10.1007/978-3-658-24886-4
+      \endverb
+      \verb{file}
+      \verb Full Text PDF:C\:\\Users\\isabe\\Zotero\\storage\\K3KGWWIX\\Kleuker - 2019 - Qualitätssicherung durch Softwaretests Vorgehensw.pdf:application/pdf
+      \endverb
+      \verb{urlraw}
+      \verb http://link.springer.com/10.1007/978-3-658-24886-4
+      \endverb
+      \verb{url}
+      \verb http://link.springer.com/10.1007/978-3-658-24886-4
+      \endverb
+      \keyw{Behaviour-Driven Development,Grundlagen,JUnit 5,Lasttest,Methoden,Open Source,Performancetest,Praxis,Qualitätsmanagement,Qualitätssicherung Buch,Qualitätssicherung durch Softwaretests,Softwaretest Buch,Stephan Kleuker,Systeme,Testarchitektur,Testautomatisierung,Testverfahren,Testwerkzeuge,Unit-Test,Verfahren}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
