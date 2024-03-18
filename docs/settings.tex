@@ -19,6 +19,10 @@
 
 \usepackage{blindtext}
 \usepackage[parfill]{parskip} % Entfernt Einrückung zu Beginn eines Paragraphen
+\setkomafont{sectioning}{\normalfont\bfseries} %Schriftart für Überschriften
+\setkomafont{descriptionlabel}{\normalfont\bfseries} %Schriftart für Aufzählung
+\setkomafont{pageheadfoot}{\normalfont}  %Schriftart Kopfzeile nicht kursiv
+
 
 \renewcommand*{\headfont}{\normalfont}
 \renewcommand*{\multicitedelim}{\addsemicolon\space}
@@ -29,9 +33,11 @@
 
 \usepackage{comment}
 
-% Code Formatierung
+% Formatierung
 \usepackage{listings}
 \usepackage{color}
+\usepackage{hyperref}% Hyperlinks im Dokument
+\hypersetup{linktoc=all} %inhaltsverzeichnis hyperlinks
 
 \renewcommand{\lstlistingname}{Codebeispiel}
 \renewcommand{\lstlistlistingname}{Codebeispielverzeichnis}
