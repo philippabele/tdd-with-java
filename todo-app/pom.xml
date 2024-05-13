@@ -72,17 +72,16 @@
     		<artifactId>javax.persistence-api</artifactId>
     		<version>2.2</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-test</artifactId>
-			<scope>test</scope>
+			<artifactId>spring-security-web</artifactId>
+			<version>6.2.4</version>
 		</dependency>
 		<dependency>
     		<groupId>org.mockito</groupId>
     		<artifactId>mockito-core</artifactId>
-    		<version>3.12.4</version> <!-- Aktuelle Version von Mockito -->
-    		<scope>test</scope> <!-- Mockito wird nur für Tests verwendet -->
+    		<version>3.12.4</version>
+    		<scope>test</scope>
 	</dependency>
 
 	</dependencies>

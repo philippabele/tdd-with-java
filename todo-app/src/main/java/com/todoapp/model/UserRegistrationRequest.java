@@ -1,34 +1,16 @@
 package com.todoapp.model;
 
-import javax.persistence.*;
-
-@Entity
-@Table(name = "users")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
-    @Column(unique = true, nullable = false)
+public class UserRegistrationRequest {
     private String username;
-
-    @Column(nullable = false)
     private String password;
+    private String confirmPassword;
 
-    public User() {}
+    public UserRegistrationRequest() {}
 
-    public User(String username, String password) {
+    public UserRegistrationRequest(String username, String password, String confirmPassword) {
         this.username = username;
         this.password = password;
-    }
-
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
+        this.confirmPassword = confirmPassword;
     }
 
     public String getUsername() {
@@ -45,5 +27,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 }
