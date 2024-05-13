@@ -14,12 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -56,6 +58,76 @@ public class UserTest {
                         .andExpect(MockMvcResultMatchers.status().isCreated())
                         // Verify that the response contains the expected username
                         .andExpect(MockMvcResultMatchers.jsonPath("$.username").value("username"));
+    }
+
+    // This test method checks if user registration fails when the username already exists
+    @Test
+    public void testUserRegistration_usernameAlreadyExists() throws Exception {
+        // Create a user registration request with an existing username
+        UserRegistrationRequest request = new UserRegistrationRequest("existingUsername", "password", "password");
+
+        // Define the behavior of userRepository when checking if the username already exists
+        when(userRepository.existsByUsername("existingUsername")).thenReturn(true);
+
+        // Perform a POST request to the /api/register endpoint with the user registration request as JSON content
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(request)))
+                // Verify that the response status is 409 (Conflict) since the username already exists
+                .andExpect(MockMvcResultMatchers.status().isConflict())
+                // Verify that the body contains a specific error message
+                .andExpect(MockMvcResultMatchers.content().string("Username already exists"));
+    }
+
+    // This test method verifies if user registration fails when the password confirmation does not match the password
+    @Test
+    public void testUserRegistration_passwordMismatch() throws Exception {
+        // Create a user registration request where the password and confirmation do not match
+        UserRegistrationRequest request = new UserRegistrationRequest("newuser", "password123", "password321");
+
+        // No need to define the behavior of userRepository.existsByUsername since the validation should fail before reaching that check
+        // Perform a POST request to the /api/register endpoint with the user registration request as JSON content
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(request)))
+                // Verify that the response status is 409 (Conflict) due to password mismatch
+                .andExpect(MockMvcResultMatchers.status().isConflict())
+                // Verify that the body contains a specific error message
+                .andExpect(MockMvcResultMatchers.content().string("Password and confirm password do not match"));
+    }
+
+    @Test
+    public void testUserRegistration_invalidInput() throws Exception {
+        // Create a user registration request with invalid data
+        UserRegistrationRequest request = new UserRegistrationRequest("", "", ""); // Leere Strings als ungültige Eingaben
+
+        // Perform a POST request to the /api/register endpoint with the invalid user registration request
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(request)))
+                // Verify that the response status is 400 (Bad Request)
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                // Optionally verify that the body contains a specific error message
+                .andExpect(MockMvcResultMatchers.content().string("Invalid request"));
+    }
+
+    @Test
+    public void testUserRegistration_databaseError() throws Exception {
+        // Create a user registration request
+        UserRegistrationRequest request = new UserRegistrationRequest("username", "password", "password");
+
+        // Define the behavior of userRepository to simulate a database error
+        when(userRepository.existsByUsername("username")).thenReturn(false);
+        when(userRepository.save(any(User.class))).thenThrow(new DataIntegrityViolationException("Database error"));
+
+        // Perform a POST request to the /api/register endpoint with the user registration request as JSON content
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(request)))
+                // Verify that the response status is 500 (Internal Server Error)
+                .andExpect(MockMvcResultMatchers.status().isInternalServerError())
+                // Verify that the response body contains the error message
+                .andExpect(MockMvcResultMatchers.content().string("Error saving user to the database"));
     }
 
     // Helper method to convert objects to JSON string
