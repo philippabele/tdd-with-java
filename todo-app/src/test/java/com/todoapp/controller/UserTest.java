@@ -18,19 +18,11 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(UserController.class)
@@ -49,109 +41,93 @@ public class UserTest {
     @MockBean
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
+    @MockBean
     private JwtUtil jwtUtil;
 
-    // This test method checks if user registration is successful
+    // Tests successful user registration and token generation
     @Test
     public void testUserRegistration_sucess() throws Exception {
-        // Create a user registration request
         UserRegistrationRequest request = new UserRegistrationRequest("username", "password", "password");
 
-        given(userRepository.existsByUsername(anyString())).willReturn(false);
-        given(passwordEncoder.encode(anyString())).willReturn("encodedPassword");
+        given(userRepository.existsByUsername("username")).willReturn(false);
+        given(passwordEncoder.encode("password")).willReturn("encodedPassword");
         given(userRepository.save(any(User.class))).willReturn(new User("username", "encodedPassword"));
+        given(jwtUtil.generateToken("username")).willReturn("generatedToken");
 
-        // Perform a POST request to the /api/register endpoint with the user registration request as JSON content
+
         mockMvc.perform(MockMvcRequestBuilders.post("/api/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(request)))
-                // Verify that the response status is 201 (Created)
                 .andExpect(MockMvcResultMatchers.status().isCreated())
-                // Verify that the response contains the expected token
                 .andExpect(MockMvcResultMatchers.jsonPath("$.token").isNotEmpty());
     }
 
-    // This test method checks if user registration fails when the username already exists
+    // Tests user registration failure when username already exists
     @Test
     public void testUserRegistration_usernameAlreadyExists() throws Exception {
-        // Create a user registration request with an existing username
         UserRegistrationRequest request = new UserRegistrationRequest("existingUsername", "password", "password");
 
-        // Define the behavior of userRepository when checking if the username already exists
-        when(userRepository.existsByUsername("existingUsername")).thenReturn(true);
+        given(userRepository.existsByUsername("existingUsername")).willReturn(true);
 
-        // Perform a POST request to the /api/register endpoint with the user registration request as JSON content
         mockMvc.perform(MockMvcRequestBuilders.post("/api/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(request)))
-                // Verify that the response status is 409 (Conflict) since the username already exists
                 .andExpect(MockMvcResultMatchers.status().isConflict())
-                // Verify that the body contains a specific error message
                 .andExpect(MockMvcResultMatchers.content().string("Username already exists"));
     }
 
-    // This test method verifies if user registration fails when the password confirmation does not match the password
+    // Tests user registration failure due to password mismatch
     @Test
     public void testUserRegistration_passwordMismatch() throws Exception {
-        // Create a user registration request where the password and confirmation do not match
         UserRegistrationRequest request = new UserRegistrationRequest("newuser", "password123", "password321");
 
-        // No need to define the behavior of userRepository.existsByUsername since the validation should fail before reaching that check
-        // Perform a POST request to the /api/register endpoint with the user registration request as JSON content
         mockMvc.perform(MockMvcRequestBuilders.post("/api/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(request)))
-                // Verify that the response status is 409 (Conflict) due to password mismatch
                 .andExpect(MockMvcResultMatchers.status().isConflict())
-                // Verify that the body contains a specific error message
                 .andExpect(MockMvcResultMatchers.content().string("Password and confirm password do not match"));
     }
 
+    // Tests user registration with invalid input
     @Test
     public void testUserRegistration_invalidInput() throws Exception {
-        // Create a user registration request with invalid data
         UserRegistrationRequest request = new UserRegistrationRequest("", "", ""); // Leere Strings als ungültige Eingaben
 
-        // Perform a POST request to the /api/register endpoint with the invalid user registration request
         mockMvc.perform(MockMvcRequestBuilders.post("/api/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(request)))
-                // Verify that the response status is 400 (Bad Request)
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
+    // Tests database error during user registration
     @Test
     public void testUserRegistration_databaseError() throws Exception {
-        // Create a user registration request
         UserRegistrationRequest request = new UserRegistrationRequest("username", "password", "password");
 
-        // Define the behavior of userRepository to simulate a database error
-        when(userRepository.existsByUsername("username")).thenReturn(false);
-        when(userRepository.save(any(User.class))).thenThrow(new DataIntegrityViolationException("Database error"));
+        given(userRepository.existsByUsername("username")).willReturn(false);
+        given(userRepository.save(any(User.class))).willThrow(new DataIntegrityViolationException("Database error"));
 
-        // Perform a POST request to the /api/register endpoint with the user registration request as JSON content
         mockMvc.perform(MockMvcRequestBuilders.post("/api/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(request)))
-                // Verify that the response status is 500 (Internal Server Error)
                 .andExpect(MockMvcResultMatchers.status().isInternalServerError())
-                // Verify that the response body contains the error message
                 .andExpect(MockMvcResultMatchers.content().string("Error saving user to the database"));
     }
 
     @Test
     public void testUserRegistrationReturnsToken() throws Exception {
-        // Cleanup before test
-        userRepository.deleteAll();
-
         UserRegistrationRequest request = new UserRegistrationRequest("username", "password", "password");
+
+        given(userRepository.existsByUsername("username")).willReturn(false);
+        given(passwordEncoder.encode("password")).willReturn("encodedPassword");
+        given(userRepository.save(any(User.class))).willReturn(new User("username", "encodedPassword"));
+        given(jwtUtil.generateToken("username")).willReturn("generatedToken");
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/register")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"username\":\"username\",\"password\":\"password\",\"confirmPassword\":\"password\"}"))
+                        .content(asJsonString(request)))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.token").isNotEmpty());
+                .andExpect(MockMvcResultMatchers.jsonPath("$.token").value("generatedToken"));
     }
 
     // Helper method to convert objects to JSON string
