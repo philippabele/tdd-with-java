@@ -1,6 +1,7 @@
 package com.todoapp.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.todoapp.config.JwtUtil;
 import com.todoapp.config.SecurityConfig;
 import com.todoapp.model.User;
 import com.todoapp.model.UserRegistrationRequest;
@@ -17,18 +18,23 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(UserController.class)
-@Import(SecurityConfig.class)
-
+@Import({SecurityConfig.class, JwtUtil.class})
 public class UserTest {
 
     @Autowired
@@ -42,6 +48,9 @@ public class UserTest {
 
     @MockBean
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     // This test method checks if user registration is successful
     @Test
@@ -57,10 +66,10 @@ public class UserTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(request)))
-                        // Verify that the response status is 201 (Created)
-                        .andExpect(MockMvcResultMatchers.status().isCreated())
-                        // Verify that the response contains the expected username
-                        .andExpect(MockMvcResultMatchers.jsonPath("$.username").value("username"));
+                // Verify that the response status is 201 (Created)
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                // Verify that the response contains the expected username
+                .andExpect(MockMvcResultMatchers.jsonPath("$.username").value("username"));
     }
 
     // This test method checks if user registration fails when the username already exists
@@ -76,10 +85,10 @@ public class UserTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(request)))
-                        // Verify that the response status is 409 (Conflict) since the username already exists
-                        .andExpect(MockMvcResultMatchers.status().isConflict())
-                        // Verify that the body contains a specific error message
-                        .andExpect(MockMvcResultMatchers.content().string("Username already exists"));
+                // Verify that the response status is 409 (Conflict) since the username already exists
+                .andExpect(MockMvcResultMatchers.status().isConflict())
+                // Verify that the body contains a specific error message
+                .andExpect(MockMvcResultMatchers.content().string("Username already exists"));
     }
 
     // This test method verifies if user registration fails when the password confirmation does not match the password
@@ -93,10 +102,10 @@ public class UserTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(request)))
-                        // Verify that the response status is 409 (Conflict) due to password mismatch
-                        .andExpect(MockMvcResultMatchers.status().isConflict())
-                        // Verify that the body contains a specific error message
-                        .andExpect(MockMvcResultMatchers.content().string("Password and confirm password do not match"));
+                // Verify that the response status is 409 (Conflict) due to password mismatch
+                .andExpect(MockMvcResultMatchers.status().isConflict())
+                // Verify that the body contains a specific error message
+                .andExpect(MockMvcResultMatchers.content().string("Password and confirm password do not match"));
     }
 
     @Test
@@ -108,8 +117,8 @@ public class UserTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(request)))
-                        // Verify that the response status is 400 (Bad Request)
-                        .andExpect(MockMvcResultMatchers.status().isBadRequest());
+                // Verify that the response status is 400 (Bad Request)
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
     @Test
@@ -125,10 +134,24 @@ public class UserTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(request)))
-                        // Verify that the response status is 500 (Internal Server Error)
-                        .andExpect(MockMvcResultMatchers.status().isInternalServerError())
-                        // Verify that the response body contains the error message
-                        .andExpect(MockMvcResultMatchers.content().string("Error saving user to the database"));
+                // Verify that the response status is 500 (Internal Server Error)
+                .andExpect(MockMvcResultMatchers.status().isInternalServerError())
+                // Verify that the response body contains the error message
+                .andExpect(MockMvcResultMatchers.content().string("Error saving user to the database"));
+    }
+
+    @Test
+    public void testUserRegistrationReturnsToken() throws Exception {
+        // Cleanup before test
+        userRepository.deleteAll();
+
+        UserRegistrationRequest request = new UserRegistrationRequest("username", "password", "password");
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"username\":\"username\",\"password\":\"password\",\"confirmPassword\":\"password\"}"))
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.token").isNotEmpty());
     }
 
     // Helper method to convert objects to JSON string
