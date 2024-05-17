@@ -147,6 +147,35 @@ public class UserTest {
                 .andExpect(jsonPath("$.token").value("generatedToken"));
     }
 
+    @Test
+    public void testUserLogin_invalidCredentials() throws Exception {
+        UserLoginRequest request = new UserLoginRequest("username", "wrongPassword");
+
+        User user = new User("username", "encodedPassword");
+        given(userRepository.findByUsername("username")).willReturn(Optional.of(user));
+        given(passwordEncoder.matches("wrongPassword", user.getPassword())).willReturn(false);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(request)))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$").value("Invalid username or password"));
+    }
+
+    @Test
+    public void testUserLogin_userNotFound() throws Exception {
+        UserLoginRequest request = new UserLoginRequest("username", "password");
+
+        given(userRepository.findByUsername("username")).willReturn(Optional.empty());
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(request)))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$").value("Invalid username or password"));
+    }
+
+
     // Helper method to convert objects to JSON string
     private String asJsonString(final Object obj) {
         try {
