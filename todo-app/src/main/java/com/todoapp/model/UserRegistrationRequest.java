@@ -1,11 +1,20 @@
 package com.todoapp.model;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class UserRegistrationRequest {
+
+    @NotBlank(message = "Username is mandatory")
     private String username;
+
+    @NotBlank(message = "Password is mandatory")
     private String password;
+
+    @NotBlank(message = "Confirm Password is mandatory")
     private String confirmPassword;
 
-    public UserRegistrationRequest() {}
+    public UserRegistrationRequest() {
+    }
 
     public UserRegistrationRequest(String username, String password, String confirmPassword) {
         this.username = username;
