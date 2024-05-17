@@ -31,7 +31,5 @@ public class JwtUtil {
                 .getBody()
                 .getSubject();
     }
-
-    // Weitere Methoden zur Verifizierung und Validierung des Tokens können hier hinzugefügt werden
 }
 

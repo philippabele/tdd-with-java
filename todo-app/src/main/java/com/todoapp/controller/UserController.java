@@ -2,6 +2,7 @@ package com.todoapp.controller;
 
 import com.todoapp.config.JwtUtil;
 import com.todoapp.model.User;
+import com.todoapp.model.UserLoginRequest;
 import com.todoapp.model.UserRegistrationRequest;
 import com.todoapp.repository.UserRepository;
 import jakarta.validation.Valid;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -65,5 +67,21 @@ public class UserController {
             // Error saving user to the database
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error saving user to the database");
         }
+    }
+
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody @Valid UserLoginRequest request) {
+        Optional<User> userOptional = userRepository.findByUsername(request.getUsername());
+        if (userOptional.isEmpty() || !passwordEncoder.matches(request.getPassword(), userOptional.get().getPassword())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+        }
+
+        String token = jwtUtil.generateToken(userOptional.get().getUsername());
+
+        Map<String, String> response = new HashMap<>();
+        response.put("token", token);
+
+        return ResponseEntity.ok(response);
     }
 }
