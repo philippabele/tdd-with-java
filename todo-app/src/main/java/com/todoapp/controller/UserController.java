@@ -1,5 +1,6 @@
 package com.todoapp.controller;
 
+import com.todoapp.config.JwtUtil;
 import com.todoapp.model.User;
 import com.todoapp.model.UserRegistrationRequest;
 import com.todoapp.repository.UserRepository;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api")
 public class UserController {
@@ -24,6 +28,9 @@ public class UserController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     // Endpoint for user registration
     @PostMapping("/register")
@@ -46,8 +53,14 @@ public class UserController {
             // Create and save user with encrypted password
             User user = new User(request.getUsername(), passwordEncoder.encode(request.getPassword()));
             userRepository.save(user);
+
+            String token = jwtUtil.generateToken(user.getUsername());
+
+            Map<String, String> response = new HashMap<>();
+            response.put("token", token);
+
             // Successful response with the created user
-            return ResponseEntity.status(HttpStatus.CREATED).body(user);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (DataIntegrityViolationException e) {
             // Error saving user to the database
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error saving user to the database");

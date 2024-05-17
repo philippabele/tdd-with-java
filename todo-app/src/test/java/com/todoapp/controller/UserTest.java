@@ -68,8 +68,8 @@ public class UserTest {
                         .content(asJsonString(request)))
                 // Verify that the response status is 201 (Created)
                 .andExpect(MockMvcResultMatchers.status().isCreated())
-                // Verify that the response contains the expected username
-                .andExpect(MockMvcResultMatchers.jsonPath("$.username").value("username"));
+                // Verify that the response contains the expected token
+                .andExpect(MockMvcResultMatchers.jsonPath("$.token").isNotEmpty());
     }
 
     // This test method checks if user registration fails when the username already exists
