@@ -1,27 +1,21 @@
 package com.todoapp.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.time.LocalDate;
 
-@Entity
-public class Todo {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class TodoRequest {
     private String title;
     private String description;
     private LocalDate dueDate;
     private boolean completed;
 
-    public Long getId() {
-        return id;
+    public TodoRequest() {
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public TodoRequest(String title, String description, LocalDate dueDate, boolean completed) {
+        this.title = title;
+        this.description = description;
+        this.dueDate = dueDate;
+        this.completed = completed;
     }
 
     public String getTitle() {
