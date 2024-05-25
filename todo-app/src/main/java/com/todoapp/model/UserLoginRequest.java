@@ -1,35 +1,21 @@
 package com.todoapp.model;
 
-import javax.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
-@Entity
-@Table(name = "users")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+public class UserLoginRequest {
 
-    @Column(unique = true, nullable = false)
+    @NotBlank(message = "Username is mandatory")
     private String username;
 
-    @Column(nullable = false)
+    @NotBlank(message = "Password is mandatory")
     private String password;
 
-    public User() {
+    public UserLoginRequest() {
     }
 
-    public User(String username, String password) {
+    public UserLoginRequest(String username, String password) {
         this.username = username;
         this.password = password;
-    }
-
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getUsername() {

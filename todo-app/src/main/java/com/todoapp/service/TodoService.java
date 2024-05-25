@@ -13,7 +13,6 @@ public class TodoService {
     }
 
     public Todo createTodo(Todo todoToCreate) {
-        // Hier könnte zusätzliche Logik stehen, z.B. Validierungen
         return todoRepository.save(todoToCreate);
     }
 }
