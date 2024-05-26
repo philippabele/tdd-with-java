@@ -21,9 +21,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -71,6 +74,48 @@ public class TodoTest {
                 .andExpect(jsonPath("$.dueDate[1]").value(5))
                 .andExpect(jsonPath("$.dueDate[2]").value(30))
                 .andExpect(jsonPath("$.completed").value(false));
+    }
+
+
+    @Test
+    @WithMockUser(username = "user")
+    public void testGetTodos_success() throws Exception {
+        Todo todo1 = new Todo();
+        todo1.setId(1L);
+        todo1.setTitle("Test Title 1");
+        todo1.setDescription("Test Description 1");
+        todo1.setDueDate(LocalDate.of(2024, 5, 30));
+        todo1.setCompleted(false);
+
+        Todo todo2 = new Todo();
+        todo2.setId(2L);
+        todo2.setTitle("Test Title 2");
+        todo2.setDescription("Test Description 2");
+        todo2.setDueDate(LocalDate.of(2024, 6, 15));
+        todo2.setCompleted(true);
+
+        List<Todo> allTodos = Arrays.asList(todo1, todo2);
+
+        given(todoRepository.findAll()).willReturn(allTodos);
+
+        mockMvc.perform(get("/api/todos")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2))
+                .andExpect(jsonPath("$[0].id").value(1L))
+                .andExpect(jsonPath("$[0].title").value("Test Title 1"))
+                .andExpect(jsonPath("$[0].description").value("Test Description 1"))
+                .andExpect(jsonPath("$[0].dueDate[0]").value(2024))
+                .andExpect(jsonPath("$[0].dueDate[1]").value(5))
+                .andExpect(jsonPath("$[0].dueDate[2]").value(30))
+                .andExpect(jsonPath("$[0].completed").value(false))
+                .andExpect(jsonPath("$[1].id").value(2L))
+                .andExpect(jsonPath("$[1].title").value("Test Title 2"))
+                .andExpect(jsonPath("$[1].description").value("Test Description 2"))
+                .andExpect(jsonPath("$[1].dueDate[0]").value(2024))
+                .andExpect(jsonPath("$[1].dueDate[1]").value(6))
+                .andExpect(jsonPath("$[1].dueDate[2]").value(15))
+                .andExpect(jsonPath("$[1].completed").value(true));
     }
 
     private String asJsonString(final Object obj) {
