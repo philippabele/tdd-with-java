@@ -8,12 +8,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/todos")
 public class TodoController {
 
     @Autowired
     private TodoRepository todoRepository;
+
+    @GetMapping
+    public List<Todo> getTodos() {
+        return todoRepository.findAll();
+    }
 
     @PostMapping
     public ResponseEntity<Todo> addTodo(@RequestBody TodoRequest todoRequest) {
