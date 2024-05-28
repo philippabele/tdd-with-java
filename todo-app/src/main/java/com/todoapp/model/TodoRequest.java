@@ -1,38 +1,21 @@
 package com.todoapp.model;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "todos")
-public class Todo {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false)
+public class TodoRequest {
     private String title;
-
-    @Column
     private String description;
-
-    @Column
     private LocalDate dueDate;
-
-    @Column(nullable = false)
     private boolean completed;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
-    public Long getId() {
-        return id;
+    public TodoRequest() {
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public TodoRequest(String title, String description, LocalDate dueDate, boolean completed) {
+        this.title = title;
+        this.description = description;
+        this.dueDate = dueDate;
+        this.completed = completed;
     }
 
     public String getTitle() {
@@ -65,13 +48,5 @@ public class Todo {
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 }

@@ -69,7 +69,6 @@ public class UserController {
         }
     }
 
-
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody @Valid UserLoginRequest request) {
         Optional<User> userOptional = userRepository.findByUsername(request.getUsername());
