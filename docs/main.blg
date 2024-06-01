@@ -1,18 +1,18 @@
 [0] Config.pm:307> INFO - This is Biber 2.19
-[1] Config.pm:310> INFO - Logfile is 'main.blg'
-[398] biber-MSWIN64:340> INFO - === 
-[535] Biber.pm:419> INFO - Reading 'main.bcf'
-[739] Biber.pm:979> INFO - Found 2 citekeys in bib section 0
-[772] Biber.pm:4419> INFO - Processing section 0
-[833] Biber.pm:4610> INFO - Looking for bibtex file 'bibliography.bib' for section 0
-[964] bibtex.pm:1713> INFO - LaTeX decoding ...
-[994] bibtex.pm:1519> INFO - Found BibTeX data source 'bibliography.bib'
-[1285] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'variable = shifted' with 'variable = non-ignorable'
-[1285] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[1285] Biber.pm:4239> INFO - Sorting list 'none/global//global/global' of type 'entry' with template 'none' and locale 'de-DE'
-[1285] Biber.pm:4245> INFO - No sort tailoring available for locale 'de-DE'
-[1371] bbl.pm:660> INFO - Writing 'main.bbl' with encoding 'UTF-8'
-[1375] bbl.pm:763> INFO - Output to main.bbl
-[1403] Biber.pm:131> WARN - ISBN '978-3-8274-2486-0 978-3-8274-2487-7' in entry 'schatten_best_2010' is invalid - run biber with '--validate_datamodel' for details.
-[1404] Biber.pm:131> WARN - ISBN '978-3-658-24885-7 978-3-658-24886-4' in entry 'kleuker_qualitatssicherung_2019' is invalid - run biber with '--validate_datamodel' for details.
-[1404] Biber.pm:133> INFO - WARNINGS: 2
+[0] Config.pm:310> INFO - Logfile is 'main.blg'
+[154] biber-MSWIN64:340> INFO - === 
+[199] Biber.pm:419> INFO - Reading 'main.bcf'
+[317] Biber.pm:979> INFO - Found 2 citekeys in bib section 0
+[333] Biber.pm:4419> INFO - Processing section 0
+[345] Biber.pm:4610> INFO - Looking for bibtex file 'bibliography.bib' for section 0
+[422] bibtex.pm:1713> INFO - LaTeX decoding ...
+[440] bibtex.pm:1519> INFO - Found BibTeX data source 'bibliography.bib'
+[516] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[516] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'variable = shifted' with 'variable = non-ignorable'
+[516] Biber.pm:4239> INFO - Sorting list 'none/global//global/global' of type 'entry' with template 'none' and locale 'de-DE'
+[516] Biber.pm:4245> INFO - No sort tailoring available for locale 'de-DE'
+[522] bbl.pm:660> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[525] bbl.pm:763> INFO - Output to main.bbl
+[527] Biber.pm:131> WARN - ISBN '978-3-8274-2486-0 978-3-8274-2487-7' in entry 'schatten_best_2010' is invalid - run biber with '--validate_datamodel' for details.
+[527] Biber.pm:131> WARN - ISBN '978-3-658-24885-7 978-3-658-24886-4' in entry 'kleuker_qualitatssicherung_2019' is invalid - run biber with '--validate_datamodel' for details.
+[527] Biber.pm:133> INFO - WARNINGS: 2
