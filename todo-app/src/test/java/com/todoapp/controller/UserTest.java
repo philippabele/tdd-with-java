@@ -16,13 +16,17 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -47,6 +51,7 @@ public class UserTest {
 
     // Tests successful user registration and token generation
     @Test
+    @WithMockUser(username = "user")
     public void testUserRegistration_sucess() throws Exception {
         UserRegistrationRequest request = new UserRegistrationRequest("username", "password", "password");
 
@@ -60,11 +65,13 @@ public class UserTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(request)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.token").isNotEmpty());
+                .andExpect(jsonPath("$.token").isNotEmpty())
+                .andExpect(jsonPath("$.token").isString());
     }
 
     // Tests user registration failure when username already exists
     @Test
+    @WithMockUser(username = "user")
     public void testUserRegistration_usernameAlreadyExists() throws Exception {
         UserRegistrationRequest request = new UserRegistrationRequest("existingUsername", "password", "password");
 
@@ -79,6 +86,7 @@ public class UserTest {
 
     // Tests user registration failure due to password mismatch
     @Test
+    @WithMockUser(username = "user")
     public void testUserRegistration_passwordMismatch() throws Exception {
         UserRegistrationRequest request = new UserRegistrationRequest("newuser", "password123", "password321");
 
@@ -91,6 +99,7 @@ public class UserTest {
 
     // Tests user registration with invalid input
     @Test
+    @WithMockUser(username = "user")
     public void testUserRegistration_invalidInput() throws Exception {
         UserRegistrationRequest request = new UserRegistrationRequest("", "", ""); // Leere Strings als ungültige Eingaben
 
@@ -102,6 +111,7 @@ public class UserTest {
 
     // Tests database error during user registration
     @Test
+    @WithMockUser(username = "user")
     public void testUserRegistration_databaseError() throws Exception {
         UserRegistrationRequest request = new UserRegistrationRequest("username", "password", "password");
 
@@ -116,6 +126,7 @@ public class UserTest {
     }
 
     @Test
+    @WithMockUser(username = "user")
     public void testUserRegistrationReturnsToken() throws Exception {
         UserRegistrationRequest request = new UserRegistrationRequest("username", "password", "password");
 
@@ -132,6 +143,7 @@ public class UserTest {
     }
 
     @Test
+    @WithMockUser(username = "user")
     public void testUserLogin_success() throws Exception {
         UserLoginRequest request = new UserLoginRequest("username", "password");
 
@@ -148,7 +160,8 @@ public class UserTest {
     }
 
     @Test
-    public void testUserLogin_invalidCredentials() throws Exception {
+    @WithMockUser(username = "user")
+    public void testUserLogin_invalidPassword() throws Exception {
         UserLoginRequest request = new UserLoginRequest("username", "wrongPassword");
 
         User user = new User("username", "encodedPassword");
@@ -163,6 +176,21 @@ public class UserTest {
     }
 
     @Test
+    @WithMockUser(username = "user")
+    public void testUserLogin_invalidUsername() throws Exception {
+        UserLoginRequest request = new UserLoginRequest("username", "password");
+
+        given(userRepository.findByUsername("username")).willReturn(Optional.empty());
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(request)))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$").value("Invalid username or password"));
+    }
+
+    @Test
+    @WithMockUser(username = "user")
     public void testUserLogin_userNotFound() throws Exception {
         UserLoginRequest request = new UserLoginRequest("username", "password");
 
@@ -173,6 +201,16 @@ public class UserTest {
                         .content(asJsonString(request)))
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$").value("Invalid username or password"));
+    }
+
+    @Test
+    @WithMockUser(username = "user")
+    public void testUserLogout_success() throws Exception {
+        assertNotNull(SecurityContextHolder.getContext().getAuthentication());
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/logout"))
+                .andExpect(status().isOk());
+        assertNull(SecurityContextHolder.getContext().getAuthentication());
     }
 
 
