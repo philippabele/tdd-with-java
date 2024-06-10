@@ -7,6 +7,7 @@ import com.todoapp.config.SecurityConfig;
 import com.todoapp.model.Todo;
 import com.todoapp.model.TodoRequest;
 import com.todoapp.repository.TodoRepository;
+import com.todoapp.service.TodoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,6 +25,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -41,7 +43,7 @@ public class TodoTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private TodoRepository todoRepository;
+    private TodoService todoService;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -63,7 +65,7 @@ public class TodoTest {
         todo.setDueDate(LocalDate.of(2024, 5, 30));
         todo.setCompleted(false);
 
-        given(todoRepository.save(any(Todo.class))).willReturn(todo);
+        given(todoService.save(any(Todo.class))).willReturn(todo);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/todos")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -76,6 +78,17 @@ public class TodoTest {
                 .andExpect(jsonPath("$.dueDate[1]").value(5))
                 .andExpect(jsonPath("$.dueDate[2]").value(30))
                 .andExpect(jsonPath("$.completed").value(false));
+    }
+
+    @Test
+    @WithMockUser(username = "user")
+    public void testAddTodo_invalidInput() throws Exception {
+        TodoRequest request = new TodoRequest("", "Test Description", LocalDate.of(2024, 5, 30), false);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/todos")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(request)))
+                .andExpect(status().isBadRequest());
     }
 
 
@@ -98,7 +111,7 @@ public class TodoTest {
 
         List<Todo> allTodos = Arrays.asList(todo1, todo2);
 
-        given(todoRepository.findAll()).willReturn(allTodos);
+        given(todoService.findAll()).willReturn(allTodos);
 
         mockMvc.perform(get("/api/todos")
                         .contentType(MediaType.APPLICATION_JSON))
@@ -118,6 +131,129 @@ public class TodoTest {
                 .andExpect(jsonPath("$[1].dueDate[1]").value(6))
                 .andExpect(jsonPath("$[1].dueDate[2]").value(15))
                 .andExpect(jsonPath("$[1].completed").value(true));
+    }
+
+    @Test
+    public void testGetTodos_unauthenticated() throws Exception {
+        mockMvc.perform(get("/api/todos")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnauthorized());
+    }
+
+
+    @Test
+    @WithMockUser(username = "user")
+    public void testGetTodoById_success() throws Exception {
+        Todo todo = new Todo();
+        todo.setId(1L);
+        todo.setTitle("Test Title");
+        todo.setDescription("Test Description");
+        todo.setDueDate(LocalDate.of(2024, 5, 30));
+        todo.setCompleted(false);
+
+        given(todoService.findById(1L)).willReturn(Optional.of(todo));
+
+        mockMvc.perform(get("/api/todos/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.title").value("Test Title"))
+                .andExpect(jsonPath("$.description").value("Test Description"))
+                .andExpect(jsonPath("$.dueDate[0]").value(2024))
+                .andExpect(jsonPath("$.dueDate[1]").value(5))
+                .andExpect(jsonPath("$.dueDate[2]").value(30))
+                .andExpect(jsonPath("$.completed").value(false));
+    }
+
+    @Test
+    @WithMockUser(username = "user")
+    public void testUpdateTodo_success() throws Exception {
+        TodoRequest request = new TodoRequest("Updated Title", "Updated Description", LocalDate.of(2024, 6, 15), true);
+
+        Todo todo = new Todo();
+        todo.setId(1L);
+        todo.setTitle("Test Title");
+        todo.setDescription("Test Description");
+        todo.setDueDate(LocalDate.of(2024, 5, 30));
+        todo.setCompleted(false);
+
+        Todo updatedTodo = new Todo();
+        updatedTodo.setId(1L);
+        updatedTodo.setTitle("Updated Title");
+        updatedTodo.setDescription("Updated Description");
+        updatedTodo.setDueDate(LocalDate.of(2024, 6, 15));
+        updatedTodo.setCompleted(true);
+
+        given(todoService.findById(1L)).willReturn(Optional.of(todo));
+        given(todoService.save(any(Todo.class))).willReturn(updatedTodo);
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/todos/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(request)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.title").value("Updated Title"))
+                .andExpect(jsonPath("$.description").value("Updated Description"))
+                .andExpect(jsonPath("$.dueDate[0]").value(2024))
+                .andExpect(jsonPath("$.dueDate[1]").value(6))
+                .andExpect(jsonPath("$.dueDate[2]").value(15))
+                .andExpect(jsonPath("$.completed").value(true));
+    }
+
+    @Test
+    @WithMockUser(username = "user")
+    public void testUpdateTodo_invalidInput() throws Exception {
+        TodoRequest request = new TodoRequest("", "Updated Description", LocalDate.of(2024, 6, 15), true);
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/todos/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(request)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser(username = "user")
+    public void testUpdateTodo_notFound() throws Exception {
+        TodoRequest request = new TodoRequest("Updated Title", "Updated Description", LocalDate.of(2024, 6, 15), true);
+
+        given(todoService.findById(1L)).willReturn(Optional.empty());
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/todos/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(request)))
+                .andExpect(status().isNotFound());
+    }
+
+
+    @Test
+    @WithMockUser(username = "user")
+    public void testDeleteTodo_success() throws Exception {
+        Todo todo = new Todo();
+        todo.setId(1L);
+        todo.setTitle("Test Title");
+        todo.setDescription("Test Description");
+        todo.setDueDate(LocalDate.of(2024, 5, 30));
+        todo.setCompleted(false);
+
+        given(todoService.findById(1L)).willReturn(Optional.of(todo));
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/todos/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+
+        given(todoService.findById(1L)).willReturn(Optional.empty());
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/todos/1"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @WithMockUser(username = "user")
+    public void testDeleteTodo_notFound() throws Exception {
+        given(todoService.findById(1L)).willReturn(Optional.empty());
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/todos/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 
     private String asJsonString(final Object obj) {
