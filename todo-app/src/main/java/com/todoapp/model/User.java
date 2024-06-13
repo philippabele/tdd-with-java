@@ -1,10 +1,12 @@
 package com.todoapp.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
 
 @Entity
 @Table(name = "users")
 public class User {
+    @jakarta.persistence.Id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

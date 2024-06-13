@@ -1,11 +1,9 @@
-package com.todoapp.controller;
+package com.todoapp.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.todoapp.config.JwtUtil;
 import com.todoapp.config.SecurityConfig;
-import com.todoapp.model.User;
-import com.todoapp.model.UserLoginRequest;
-import com.todoapp.model.UserRegistrationRequest;
+import com.todoapp.controller.UserController;
 import com.todoapp.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,12 +1,10 @@
-package com.todoapp.controller;
+package com.todoapp.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.todoapp.config.JacksonConfig;
 import com.todoapp.config.SecurityConfig;
-import com.todoapp.model.Todo;
-import com.todoapp.model.TodoRequest;
-import com.todoapp.repository.TodoRepository;
+import com.todoapp.controller.TodoController;
 import com.todoapp.service.TodoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
