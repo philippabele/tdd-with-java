@@ -2,12 +2,15 @@ package com.todoapp.controller;
 
 import com.todoapp.model.Todo;
 import com.todoapp.model.TodoRequest;
+import com.todoapp.model.User;
 import com.todoapp.repository.TodoRepository;
+import com.todoapp.repository.UserRepository;
 import com.todoapp.service.TodoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,10 +21,14 @@ import java.util.Optional;
 public class TodoController {
 
     private final TodoService todoService;
+    private final TodoRepository todoRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public TodoController(TodoService todoService) {
+    public TodoController(TodoService todoService, TodoRepository todoRepository, UserRepository userRepository) {
         this.todoService = todoService;
+        this.todoRepository = todoRepository;
+        this.userRepository = userRepository;
     }
 
     @PostMapping
@@ -36,9 +43,29 @@ public class TodoController {
         return new ResponseEntity<>(savedTodo, HttpStatus.CREATED);
     }
 
+    /*
     @GetMapping
     public List<Todo> getTodos() {
         return todoService.findAll();
+    }
+     */
+
+    @GetMapping
+    public ResponseEntity<List<Todo>> getTodos(Authentication authentication) {
+        // Authenticated user
+        String username = authentication.getName();
+
+        // Find user by username
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+        if (!optionalUser.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+        User user = optionalUser.get();
+
+        // Find todos for the user
+        List<Todo> todos = todoRepository.findByUserId(user.getId());
+
+        return ResponseEntity.ok(todos);
     }
 
     @GetMapping("/{id}")

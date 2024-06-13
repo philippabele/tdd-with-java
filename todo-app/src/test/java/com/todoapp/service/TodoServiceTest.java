@@ -71,6 +71,23 @@ public class TodoServiceTest {
     }
 
     @Test
+    public void testFindTodoByIdNotFound() {
+        given(todoRepository.findById(1L)).willReturn(Optional.empty());
+        Optional<Todo> foundTodo = todoService.findById(1L);
+        assertTrue(foundTodo.isEmpty());
+        verify(todoRepository, times(1)).findById(1L);
+    }
+
+    @Test
+    public void testUpdateTodo() {
+        given(todoRepository.save(any(Todo.class))).willReturn(todo);
+        todo.setTitle("Updated Title");
+        Todo updatedTodo = todoService.save(todo);
+        assertEquals("Updated Title", updatedTodo.getTitle());
+        verify(todoRepository, times(1)).save(todo);
+    }
+
+    @Test
     public void testDeleteTodoById() {
         todoService.deleteById(1L);
         verify(todoRepository, times(1)).deleteById(1L);
