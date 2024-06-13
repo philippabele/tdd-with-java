@@ -10,6 +10,6 @@ public class ContextLoadTest {
 
     @Test
     void contextLoads() {
-        
+
     }
 }

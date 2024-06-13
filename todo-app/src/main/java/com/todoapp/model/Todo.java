@@ -1,12 +1,15 @@
 package com.todoapp.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
+
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "todos")
 public class Todo {
 
+    @jakarta.persistence.Id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,6 +29,17 @@ public class Todo {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    public Todo() {
+    }
+
+    public Todo(String title, String description, LocalDate dueDate, boolean completed, User user) {
+        this.title = title;
+        this.description = description;
+        this.dueDate = dueDate;
+        this.completed = completed;
+        this.user = user;
+    }
 
     public Long getId() {
         return id;
