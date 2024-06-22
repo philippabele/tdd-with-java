@@ -1,4 +1,4 @@
-package com.todoapp.config;
+package com.todoapp.configs;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
