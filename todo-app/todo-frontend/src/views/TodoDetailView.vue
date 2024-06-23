@@ -36,8 +36,12 @@ export default {
       localTodo: { ...this.todo }
     };
   },
-    if (this.todo) {
   watch: {
+    todo: {
+      handler(newVal) {
+        this.localTodo = { ...newVal };
+      },
+      deep: true,
       immediate: true
     }
   },
