@@ -3,7 +3,7 @@ import IndexView from '@/views/IndexView.vue';
 import LoginView from '@/views/LoginView.vue';
 import RegisterView from '@/views/RegisterView.vue';
 import HomeView from '@/views/HomeView.vue';
-import NewTodoForm from '@/views/NewTodoForm.vue'; // Annahme: Sie haben eine separate Komponente für das Todo-Formular
+import NewTodoForm from '@/views/NewTodoForm.vue';
 import TodoDetailView from '@/views/TodoDetailView.vue';
 
 const routes = [
@@ -48,17 +48,16 @@ const router = createRouter({
     routes,
 });
 
-// Navigation guard to check for authentication
 router.beforeEach((to, from, next) => {
     const isLoggedIn = localStorage.getItem('token');
-    if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
         if (!isLoggedIn) {
-            next('/login');
+            next('/login'); // Redirect to login page if not authenticated
         } else {
-            next();
+            next(); // Proceed to the requested route
         }
     } else {
-        next();
+        next(); // Allow access to non-protected routes
     }
 });
 
