@@ -1,21 +1,22 @@
 <template>
-  <div>
-    <h2>Create new Todo</h2>
-    <form @submit.prevent="saveTodo" class="todo-form">
+  <div class="new-todo-container">
+    <h2 class="header">Create New Todo</h2>
+    <form @submit.prevent="createTodo" class="form">
+
       <label for="completed">Completed:</label>
-      <input type="checkbox" id="completed" v-model="newTodo.completed">
+      <input type="checkbox" id="completed" v-model="todo.completed">
 
       <label for="title">Title:</label>
-      <input type="text" id="title" v-model="newTodo.title" required>
+      <input type="text" id="title" v-model="todo.title" required class="input">
 
       <label for="description">Description:</label>
-      <textarea id="description" v-moacdel="newTodo.description"></textarea>
+      <textarea id="description" v-model="todo.description" required class="textarea"></textarea>
 
       <label for="dueDate">Due Date:</label>
-      <input type="date" id="dueDate" v-model="newTodo.dueDate">
+      <input type="date" id="dueDate" v-model="todo.dueDate" class="input">
 
       <div class="button-container">
-        <button type="submit" class="save-button">Create</button>
+        <button type="submit" class="save-button">Create new TODO </button>
         <button @click="cancelNew" class="cancel-button">Cancel</button>
       </div>
     </form>
@@ -26,66 +27,76 @@
 import axios from 'axios';
 
 export default {
+  components: {
+  },
   data() {
     return {
-      newTodo: {
+      todo: {
         title: '',
         description: '',
         dueDate: '',
         completed: false,
-      },
+      }
     };
   },
   methods: {
     cancelNew() {
       this.$router.go(-1);
     },
-    async saveTodo() {
+    async createTodo() {
       try {
+        if (this.isLoggedIn) return;
         const token = localStorage.getItem('token');
-        const response = await axios.post('http://localhost:8080/todos', this.newTodo, {
+        const response = await axios.post('http://localhost:8080/todos', this.todo, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
         });
-        console.log('Todo added successfully:', response.data);
-
-        // Reset form fields
-        this.newTodo = {
-          title: '',
-          description: '',
-          dueDate: '',
-          completed: false,
-        };
+        console.log('Todo created:', response.data);
         this.$router.push('/home');
       } catch (error) {
-        console.error(error.response.data);
+        console.error('Error creating todo:', error);
       }
     },
-  },
+    computed: {
+      isLoggedIn() {
+        return !localStorage.getItem('token');
+      },
+    },
+  }
 };
 </script>
 
 <style scoped>
-.todo-form {
+.new-todo-container {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   margin-left: 2%;
   margin-right: 2%;
   padding: 20px;
-  background-color: #f2f2f2;
-  border-radius: 8px;
 }
 
-.todo-form label {
-  margin-bottom: 8px;
+.header {
+  padding: 20px;
+  width: 100%;
+  text-align: center;
+  color: #154360;
+  margin-bottom: 40px;
 }
 
-.todo-form input[type="text"],
-.todo-form textarea,
-.todo-form input[type="date"],
-.todo-form input[type="checkbox"] {
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  gap: 15px;
+}
+
+.todo-content input[type="text"],
+.todo-content textarea,
+.todo-content input[type="date"],
+.todo-content input[type="checkbox"] {
   width: calc(100% - 20px);
   padding: 8px;
   margin-bottom: 12px;
@@ -93,7 +104,7 @@ export default {
   border-radius: 4px;
 }
 
-.todo-form input[type="checkbox"] {
+.todo-content input[type="checkbox"] {
   width: 20px;
   height: 20px;
   margin-right: 10px;
@@ -102,30 +113,36 @@ export default {
 .button-container {
   margin-top: 10px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
 }
 
-.todo-form .save-button,
-.todo-form .cancel-button {
-  background-color: #555555;
-  color: white;
+.cancel-button,
+.save-button {
+  padding: 10px 20px;
   border: none;
   padding: 10px 20px;
-  border-radius: 4px;
   margin-right: 10px;
+  border-radius: 8px;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.todo-form .save-button:hover,
-.todo-form .cancel-button:hover {
+.cancel-button {
+  background-color: #555555;
+  color: white;
+}
+
+.save-button {
+  background-color: #5dade2;
+  color: white;
+}
+
+.cancel-button:hover {
   background-color: #333333;
 }
 
-.todo-form h2 {
-  margin-top: 0;
-  margin-bottom: 20px;
-  text-align: left;
-  color: #333;
+.save-button:hover {
+  background-color: #2e86c1;
 }
 </style>

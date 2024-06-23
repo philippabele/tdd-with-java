@@ -1,6 +1,6 @@
 \babel@toc {ngerman}{}\relax 
-\contentsline {chapter}{Abbildungsverzeichnis}{I}{section*.3}%
-\contentsline {chapter}{\nonumberline Abkürzungsverzeichnis}{II}{chapter*.5}%
+\contentsline {chapter}{Abbildungsverzeichnis}{I}{section*.5}%
+\contentsline {chapter}{\nonumberline Abkürzungsverzeichnis}{II}{chapter*.7}%
 \contentsline {chapter}{\numberline {1}Einleitung}{1}{chapter.1}%
 \contentsline {chapter}{\numberline {2}Grundlagen}{2}{chapter.2}%
 \contentsline {section}{\numberline {2.1}Test-Driven Development}{2}{section.2.1}%
@@ -11,8 +11,30 @@
 \contentsline {subsection}{\numberline {3.2.1}Entwurf des Datenmodells}{7}{subsection.3.2.1}%
 \contentsline {subsection}{\numberline {3.2.2}Projektanforderungen an die Datenbank}{9}{subsection.3.2.2}%
 \contentsline {subsection}{\numberline {3.2.3}Datenbankdesign}{10}{subsection.3.2.3}%
-\contentsline {section}{\numberline {3.3}User Interface Design}{11}{section.3.3}%
-\contentsline {subsection}{\numberline {3.3.1}Gestaltung der Benutzeroberfläche}{11}{subsection.3.3.1}%
-\contentsline {subsection}{\numberline {3.3.2}Berücksichtigung von Usability-Prinzipien}{12}{subsection.3.3.2}%
-\contentsline {chapter}{Literaturverzeichnis}{16}{chapter*.15}%
+\contentsline {section}{\numberline {3.3}User Interface Design}{10}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Gestaltung der Benutzeroberfläche}{10}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Berücksichtigung von Usability-Prinzipien}{13}{subsection.3.3.2}%
+\contentsline {chapter}{\numberline {4}Backend-Implementierung unter Verwendung von TDD}{16}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Entwicklungsumgebung und Werkzeuge}{16}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Implementierungsschritte}{17}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Beispieltests und Testfälle}{19}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Unit-Tests}{19}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Integrationstests}{20}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Akzeptanztests}{20}{section.4.6}%
+\contentsline {chapter}{\numberline {5}Frontend Entwicklung}{22}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Projektanforderung an Frontend-Entwicklung}{22}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Technologiestack}{23}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Projektstruktur}{23}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Routing}{24}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Authentifizierung und Autorisierung}{24}{section.5.5}%
+\contentsline {section}{\numberline {5.6}HTTP-Anfragen}{24}{section.5.6}%
+\contentsline {section}{\numberline {5.7}State Management}{25}{section.5.7}%
+\contentsline {section}{\numberline {5.8}Styling}{25}{section.5.8}%
+\contentsline {chapter}{\numberline {6}Deployment}{26}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Datenbank einrichten}{26}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Backend starten}{27}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Frontend starten}{27}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Zugriff auf Todo-Liste Webanwendung}{27}{section.6.4}%
+\contentsline {chapter}{\numberline {7}Fazit}{29}{chapter.7}%
+\contentsline {chapter}{Literaturverzeichnis}{32}{chapter*.18}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

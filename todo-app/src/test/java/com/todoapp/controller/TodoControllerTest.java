@@ -13,7 +13,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -28,8 +27,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -52,20 +50,54 @@ public class TodoControllerTest {
     @InjectMocks
     private TodoController todoController;
 
+    private User testUser;
+
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
+        testUser = new User();
+        testUser.setId(1L);
+        testUser.setUsername("testUser");
+        testUser.setPassword("testPassword");
+
+        when(authentication.getPrincipal()).thenReturn(userDetails);
+        when(userDetails.getUsername()).thenReturn("testUser");
+        when(userService.findUserByUsername(anyString())).thenReturn(Optional.of(testUser));
+    }
+
+
+    @Test
+    public void testFindAllByUserId() {
+
+        Todo todo1 = new Todo();
+        todo1.setTitle("Todo 1");
+        todo1.setDescription("Description 1");
+        todo1.setDueDate(LocalDate.now());
+        todo1.setCompleted(false);
+        todo1.setUser(testUser);
+
+        Todo todo2 = new Todo();
+        todo2.setTitle("Todo 2");
+        todo2.setDescription("Description 2");
+        todo2.setDueDate(LocalDate.now().plusDays(1));
+        todo2.setCompleted(true);
+        todo2.setUser(testUser);
+
+        todoService.addTodo(todo1);
+        todoService.addTodo(todo2);
+
+        List<Todo> todos = todoService.findAllByUserId(testUser.getId());
+
+        assertEquals(2, todos.size());
+        assertEquals("Todo 1", todos.get(0).getTitle());
+        assertEquals("Todo 2", todos.get(1).getTitle());
     }
 
     @Test
     public void testAddTodo_Success() {
         TodoRequest todoRequest = new TodoRequest("Test Title", "Test Description", LocalDate.now(), false);
-        User user = new User();
-        Todo todo = new Todo("Test Title", "Test Description", LocalDate.now(), false, user);
+        Todo todo = new Todo("Test Title", "Test Description", LocalDate.now(), false, testUser);
 
-        when(authentication.getPrincipal()).thenReturn(userDetails);
-        when(userDetails.getUsername()).thenReturn("testUser");
-        when(userService.findUserByUsername(anyString())).thenReturn(Optional.of(user));
         when(todoService.addTodo(any(Todo.class))).thenReturn(todo);
 
         ResponseEntity<Todo> response = todoController.addTodo(todoRequest, authentication);
@@ -121,7 +153,6 @@ public class TodoControllerTest {
 
     @Test
     public void testGetTodos_UserNotFound() {
-        when(authentication.getName()).thenReturn("testUser");
         when(userService.findUserByUsername(anyString())).thenReturn(Optional.empty());
 
         ResponseEntity<List<Todo>> response = todoController.getTodos(authentication);

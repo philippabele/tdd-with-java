@@ -73,33 +73,26 @@ class AuthenticationServiceIntegrationTest {
     }
 
     @Test
-    void testAuthenticateUser_Success() {   // TODO Test korrigieren
-        // Registrierung des Benutzers
+    void testAuthenticateUser_Success() {
         UserRegistrationRequest registrationRequest = new UserRegistrationRequest("testuser", "password", "password");
         User registeredUser = new User(registrationRequest.getUsername(), passwordEncoder.encode(registrationRequest.getPassword()));
         when(userService.saveUser(any(User.class))).thenReturn(registeredUser);
 
-        // Mocking userService für die Authentifizierung
         UserLoginRequest loginRequest = new UserLoginRequest("testuser", "password");
         User user = new User(loginRequest.getUsername(), passwordEncoder.encode(loginRequest.getPassword()));
         when(userService.findUserByUsername(loginRequest.getUsername())).thenReturn(Optional.of(user));
 
-        // Mocking authenticationManager
         when(authenticationManager.authenticate(any(Authentication.class)))
                 .thenReturn(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
-        // Durchführen der Registrierung
         User savedUser = authenticationService.register(registrationRequest);
         assertNotNull(savedUser);
 
-        // Execution
         User authenticatedUser = authenticationService.authenticate(loginRequest);
 
-        // Assertions
-        assertNotNull(authenticatedUser);  // Stellen Sie sicher, dass authenticatedUser nicht null ist
+        assertNotNull(authenticatedUser);
         assertEquals("testuser", authenticatedUser.getUsername());
 
-        // Verify
         verify(authenticationManager).authenticate(any(Authentication.class));
         verify(userService).saveUser(any(User.class));
         verify(userService).findUserByUsername(loginRequest.getUsername());
@@ -110,31 +103,25 @@ class AuthenticationServiceIntegrationTest {
     void testAuthenticateUser_UserNotFound() {
         UserLoginRequest request = new UserLoginRequest("unknownuser", "password");
 
-        // Mocking
         when(userService.findUserByUsername(request.getUsername())).thenReturn(Optional.empty());
 
-        // Execution and Assertion
         assertThrows(RuntimeException.class, () -> authenticationService.authenticate(request));
 
-        // Verify
         verify(authenticationManager, never()).authenticate(any(Authentication.class));
     }
 
     @Test
-    void testAuthenticateUser_InvalidPassword() {   // TODO korrigieren
+    void testAuthenticateUser_InvalidPassword() {
         // Mocking
         UserLoginRequest request = new UserLoginRequest("testuser", "wrongpassword");
         User user = new User(request.getUsername(), passwordEncoder.encode("password"));
 
-        // Konfiguration der Mock-Interaktionen
         when(userService.findUserByUsername(request.getUsername())).thenReturn(Optional.of(user));
         when(authenticationManager.authenticate(any(Authentication.class)))
                 .thenThrow(new BadCredentialsException("Invalid credentials"));
 
-        // Ausführung des Tests und Assertion
         assertThrows(AuthenticationException.class, () -> authenticationService.authenticate(request));
 
-        // Verifikation der Interaktionen
         verify(authenticationManager).authenticate(any(Authentication.class));
         verify(userService).findUserByUsername(request.getUsername());
     }

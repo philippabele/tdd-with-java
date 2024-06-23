@@ -141,6 +141,219 @@
       \endverb
       \keyw{Behaviour-Driven Development,Grundlagen,JUnit 5,Lasttest,Methoden,Open Source,Performancetest,Praxis,Qualitätsmanagement,Qualitätssicherung Buch,Qualitätssicherung durch Softwaretests,Softwaretest Buch,Stephan Kleuker,Systeme,Testarchitektur,Testautomatisierung,Testverfahren,Testwerkzeuge,Unit-Test,Verfahren}
     \endentry
+    \entry{noauthor_mysql_nodate}{misc}{}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labeltitlesource}{title}
+      \field{title}{{MySQL} :: {MySQL} {Community} {Edition}}
+      \field{urlday}{23}
+      \field{urlmonth}{6}
+      \field{urlyear}{2024}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb MySQL \:\: MySQL Community Edition:C\:\\Users\\isabe\\Zotero\\storage\\PNYTSVTI\\community.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://www.mysql.com/products/community/
+      \endverb
+      \verb{url}
+      \verb https://www.mysql.com/products/community/
+      \endverb
+    \endentry
+    \entry{noauthor_was_2022}{misc}{}
+      \list{language}{1}{%
+        {de-DE}%
+      }
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Lernen Sie Datenbankmanagement, Abfragen und Optimierung. Verbessern Sie Ihre Datenkenntnisse mit unserem umfassenden MySQL-Artikel.}
+      \field{month}{3}
+      \field{note}{Section: Daten}
+      \field{shorttitle}{Was ist {MySQL}?}
+      \field{title}{Was ist {MySQL}? {|} {Data} {Basecamp}}
+      \field{urlday}{23}
+      \field{urlmonth}{6}
+      \field{urlyear}{2024}
+      \field{year}{2022}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb Snapshot:C\:\\Users\\isabe\\Zotero\\storage\\4AB2WKQX\\mysql.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://databasecamp.de/daten/mysql
+      \endverb
+      \verb{url}
+      \verb https://databasecamp.de/daten/mysql
+      \endverb
+    \endentry
+    \entry{nielsen_10_nodate}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=753054f71283d85f82cda8e35daf6bac}{%
+           family={Nielsen},
+           familyi={N\bibinitperiod},
+           given={Jakob},
+           giveni={J\bibinitperiod}}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{753054f71283d85f82cda8e35daf6bac}
+      \strng{fullhash}{753054f71283d85f82cda8e35daf6bac}
+      \strng{bibnamehash}{753054f71283d85f82cda8e35daf6bac}
+      \strng{authorbibnamehash}{753054f71283d85f82cda8e35daf6bac}
+      \strng{authornamehash}{753054f71283d85f82cda8e35daf6bac}
+      \strng{authorfullhash}{753054f71283d85f82cda8e35daf6bac}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Jakob Nielsen's 10 general principles for interaction design. They are called "heuristics" because they are broad rules of thumb and not specific usability guidelines.}
+      \field{journaltitle}{Nielsen Norman Group}
+      \field{title}{10 {Usability} {Heuristics} for {User} {Interface} {Design}}
+      \field{urlday}{1}
+      \field{urlmonth}{6}
+      \field{urlyear}{2024}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb Snapshot:C\:\\Users\\isabe\\Zotero\\storage\\NSGXLT5Z\\ten-usability-heuristics.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://www.nngroup.com/articles/ten-usability-heuristics/
+      \endverb
+      \verb{url}
+      \verb https://www.nngroup.com/articles/ten-usability-heuristics/
+      \endverb
+    \endentry
+    \entry{noauthor_intellij_nodate}{misc}{}
+      \list{language}{1}{%
+        {de}%
+      }
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labeltitlesource}{title}
+      \field{abstract}{IntelliJ IDEA ist ganz klar die Top-IDE für Softwareentwickler. It makes Java and Kotlin development a more productive and enjoyable experience.}
+      \field{journaltitle}{JetBrains}
+      \field{title}{{IntelliJ} {IDEA} – die führende {Java}- und {Kotlin}-{IDE}}
+      \field{urlday}{23}
+      \field{urlmonth}{6}
+      \field{urlyear}{2024}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb Snapshot:C\:\\Users\\isabe\\Zotero\\storage\\PHNQNKBT\\idea.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://www.jetbrains.com/de-de/idea/
+      \endverb
+      \verb{url}
+      \verb https://www.jetbrains.com/de-de/idea/
+      \endverb
+    \endentry
+    \entry{noauthor_maven_nodate}{misc}{}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labeltitlesource}{title}
+      \field{title}{Maven – {Welcome} to {Apache} {Maven}}
+      \field{urlday}{23}
+      \field{urlmonth}{6}
+      \field{urlyear}{2024}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb Maven – Welcome to Apache Maven:C\:\\Users\\isabe\\Zotero\\storage\\IWAYZM5C\\maven.apache.org.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://maven.apache.org/
+      \endverb
+      \verb{url}
+      \verb https://maven.apache.org/
+      \endverb
+    \endentry
+    \entry{noauthor_build_2024}{misc}{}
+      \list{language}{1}{%
+        {en}%
+      }
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labeltitlesource}{title}
+      \field{abstract}{GitHub is where people build software. More than 100 million people use GitHub to discover, fork, and contribute to over 420 million projects.}
+      \field{journaltitle}{GitHub}
+      \field{title}{Build software better, together}
+      \field{urlday}{23}
+      \field{urlmonth}{6}
+      \field{urlyear}{2024}
+      \field{year}{2024}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb Snapshot:C\:\\Users\\isabe\\Zotero\\storage\\K73VFW77\\about.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://github.com
+      \endverb
+      \verb{url}
+      \verb https://github.com
+      \endverb
+    \endentry
+    \entry{noauthor_xampp_nodate}{misc}{}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labeltitlesource}{title}
+      \field{title}{{XAMPP} {Installers} and {Downloads} for {Apache} {Friends}}
+      \field{urlday}{23}
+      \field{urlmonth}{6}
+      \field{urlyear}{2024}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb XAMPP Installers and Downloads for Apache Friends:C\:\\Users\\isabe\\Zotero\\storage\\I6SHH5DP\\index.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://www.apachefriends.org/de/index.html
+      \endverb
+      \verb{url}
+      \verb https://www.apachefriends.org/de/index.html
+      \endverb
+    \endentry
+    \entry{noauthor_vuejs_nodate}{misc}{}
+      \list{language}{1}{%
+        {en-US}%
+      }
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Vue.js - The Progressive JavaScript Framework}
+      \field{title}{Vue.js}
+      \field{urlday}{23}
+      \field{urlmonth}{6}
+      \field{urlyear}{2024}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb Snapshot:C\:\\Users\\isabe\\Zotero\\storage\\FCGSW7SP\\vuejs.org.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://vuejs.org/
+      \endverb
+      \verb{url}
+      \verb https://vuejs.org/
+      \endverb
+    \endentry
+    \entry{noauthor_philippabeletdd--java_nodate}{misc}{}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labeltitlesource}{title}
+      \field{title}{philippabele/tdd-with-java}
+      \field{urlday}{23}
+      \field{urlmonth}{6}
+      \field{urlyear}{2024}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb philippabele/tdd-with-java:C\:\\Users\\isabe\\Zotero\\storage\\6PDQFKUH\\tdd-with-java.html:text/html
+      \endverb
+      \verb{urlraw}
+      \verb https://github.com/philippabele/tdd-with-java
+      \endverb
+      \verb{url}
+      \verb https://github.com/philippabele/tdd-with-java
+      \endverb
+    \endentry
   \enddatalist
 \endrefsection
 \endinput

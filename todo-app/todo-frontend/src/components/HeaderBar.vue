@@ -2,9 +2,7 @@
   <div class="header">
     <h1>Your own TODO-List</h1>
     <div class="header-links">
-      <router-link v-if="!isLoggedIn" to="/login">Login</router-link>
-      <router-link v-if="!isLoggedIn" to="/register">Register</router-link>
-      <button v-if="isLoggedIn" @click.prevent="handleLogout" class="logout-link">Logout</button>
+      <a v-if="isLoggedIn" @click.prevent="handleLogout" class="logout-link">Logout</a>
     </div>
   </div>
 </template>
@@ -41,28 +39,26 @@ export default {
 <style scoped>
 .header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  background-color: #aed6f1;
-  color: #154360;
+  justify-content: space-between;
+  background-color: #154360;
+  color: white;
   padding: 15px;
 }
 
 .header h1 {
   margin: 0;
+  flex: 1;
+  text-align: center;
 }
 
 .header-links {
   display: flex;
-  gap: 15px;
+  gap: 10px;
 }
 
 .logout-link {
   cursor: pointer;
-  color: #154360;
-}
-
-.logout-link:hover {
-  color: #0b3c60;
+  color: #9bc8e7;
 }
 </style>

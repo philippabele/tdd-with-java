@@ -1,0 +1,75 @@
+\chapter{Frontend Entwicklung}
+\section{Projektanforderung an Frontend-Entwicklung}
+
+Das Projekt stellt vielfältige  Anforderungen an die Entwicklung des Frontends:
+
+\begin{itemize}
+	\item \textbf{Einfachheit und Flexibilität}:  Vue.js bietet eine sanfte Lernkurve und ist flexibel einsetzbar, was es ideal für verschiedene Projektanforderungen macht \cite{noauthor_vuejs_nodate}.
+	
+	\item \textbf{Einfache Integrität}: Vue.js ermöglicht eine einfache Integration in bestehende Projekte und Technologiestacks \cite{noauthor_vuejs_nodate}.
+	
+	\item \textbf{Reaktive Datenbindung}: Durch die reaktive Datenbindung können Änderungen automatisch auf der Benutzeroberfläche reflektiert werden, was die Entwicklung dynamischer Anwendungen erleichtert \cite{noauthor_vuejs_nodate}.
+	
+	\item \textbf{Komponentenbasierte Architektur}: Die komponentenbasierte Architektur fördert die Wiederverwendbarkeit und Wartbarkeit des Codes, indem sie die Trennung von Logik und Darstellung erleichtert \cite{noauthor_vuejs_nodate}.
+	
+	\item \textbf{Leistungsfähigkeit}: Vue.js bietet eine hohe Leistung und Effizienz bei der Erstellung von Benutzeroberflächen \cite{noauthor_vuejs_nodate}.
+	
+	\item \textbf{Große Community und gute Dokumentation}: Eine aktive Community und umfassende Dokumentation erleichtern die Lösung von Problemen und den Zugriff auf Ressourcen \cite{noauthor_vuejs_nodate}.
+\end{itemize}
+
+Die Wahl von Vue.js als Framework erfüllt diese Anforderungen und rechtfertigt daher die Entscheidung für seine Verwendung im Projekt.
+
+
+\section{Technologiestack}
+
+Das Frontend verwendet folgende Technologien und Frameworks:
+
+\begin{itemize}
+	\item \textbf{Vue.js (Version 3.2.13)}: Haupt-Framework für die Erstellung der Benutzeroberfläche.
+	\item \textbf{Vue Router (Version 4.4.0)}:  Routing-Library für die Navigation innerhalb der Anwendung.
+	\item \textbf{Vuex (Version 4.1.0}: State-Management-Bibliothek für die zentralisierte Speicherung von Daten.
+\end{itemize}
+
+Das Projekt wurde mit Hilfe des Vue CLI (Command Line Interface) initialisiert, um eine standardisierte Projektstruktur und die notwendigen Abhängigkeiten bereitzustellen. Nach der Erstellung des Projekts wurden die zusätzliche Bibliotheken \texttt{axios} für HTTP-Anfragen und \texttt{vue-router} für die Navigation installiert.
+
+
+\section{Projektstruktur}
+Die Projektstruktur wurde so gestaltet, dass sie eine klare Trennung der einzelnen Komponenten und Funktionalitäten ermöglicht. Die Verzeichnisstruktur ist wie folgt:
+
+\begin{itemize}
+	\item \textbf{/src}: Hauptverzeichnis für den Quellcode.
+	\item \textbf{/src/components}: Enthält wiederverwendbare Vue-Komponenten.
+	\item \textbf{/src/components/HeaderBar.vue}: Die Kopfzeile der Anwendung, die das Logo und die Logout-Option enthält, abhängig davon, ob der Benutzer angemeldet ist.
+	\item \textbf{/src/views}: Enthält die Hauptansichten der Anwendung.
+	\item \textbf{/src/views/IndexView.vue}: Die Startseite der Anwendung, die Optionen zum Anmelden und Registrieren bereitstellt.
+	\item \textbf{/src/views/LoginView.vue}: Das Anmeldeformular, das Benutzername und Passwort für die Authentifizierung erfordert.
+	\item \textbf{/src/views/RegisterView.vue}: Das Registrierungsformular, das Benutzer zur Erstellung eines Kontos ermöglicht.%TODO Konto oder Account
+	\item \textbf{/src/views/HomeView.vue}: Die Hauptansicht nach der Anmeldung, die eine Liste von Todos anzeigt.
+	\item \textbf{/src/views/NewTodoForm.vue}: Ein Formular zur Erstellung neuer Todos.
+	\item \textbf{/src/views/TodoDetailView.vue}: Ansicht zum Bearbeiten eines bestimmten Todos.
+	\item \textbf{/src/router.js}: Konfiguration der Vue Router-Instanz.
+	\item \textbf{/src/store.js}: Vuex Store-Konfiguration für das State-Management.
+	\item \textbf{/src/App.vue}: Wurzelkomponente der Anwendung.
+	\item \textbf{/src/main.js}: Einstiegspunkt, wo die Vue-Instanz erstellt und konfiguriert wird.
+
+\end{itemize}
+
+\section{Routing}
+Der Router wurde in der Datei \texttt{src/router.js} konfiguriert. Die Konfiguration umfasst die Definition der verschiedenen Routen, die jeweils einer spezifischen Komponente zugeordnet sind. Dies ermöglicht eine einfache Navigation zwischen den verschiedenen Ansichten der Anwendung.
+	
+\section{Authentifizierung und Autorisierung}
+Die Webanwendung verwendet JSON Web Tokens (JWT) zur Authentifizierung von Benutzern. Nach erfolgreicher Anmeldung wird ein Token im Local Storage gespeichert und für alle folgenden Anfragen an den Server verwendet. Die Authentifizierung wird durch Vue Router Navigation Guards implementiert, um sicherzustellen, dass nur authentifizierte Benutzer auf geschützte Routen zugreifen können.
+
+\section {HTTP-Anfragen}
+HTTP-Anfragen werden mit Axios durchgeführt, um mit dem Backend-Server zu kommunizieren. Diese Anfragen werden in den Vue-Komponenten ausgeführt, um Daten zu laden, zu speichern oder zu aktualisieren.
+Für jede wird der JWT-Token automatisch zum Header hinzugefügt, um sicherzustellen, dass der Server die Anfrage autorisiert.
+
+\section{State Management}
+Vuex wird verwendet, um den globalen Zustand der Anwendung zu verwalten. Es speichert den Anmeldestatus und den JWT-Token des Benutzers und bietet zentralisierten Zugriff auf diese Daten. Die State-Management-Logik wurde in der Datei \texttt{src/store.js} definiert.
+
+\section{Styling}
+Das Styling erfolgt hauptsächlich mit CSS innerhalb der einzelnen Vue-Komponenten. Das Scoped Styling von Vue.js sorgt dafür, dass die Styles nur auf die jeweilige Komponente angewendet werden.
+
+
+
+
