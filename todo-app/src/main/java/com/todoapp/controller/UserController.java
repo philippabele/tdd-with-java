@@ -1,15 +1,16 @@
 package com.todoapp.controller;
 
-import com.todoapp.config.JwtUtil;
+import com.todoapp.model.LoginResponse;
 import com.todoapp.model.User;
 import com.todoapp.model.UserLoginRequest;
 import com.todoapp.model.UserRegistrationRequest;
-import com.todoapp.repository.UserRepository;
+import com.todoapp.service.AuthenticationService;
+import com.todoapp.service.JwtService;
+import com.todoapp.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -19,74 +20,84 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
 @RestController
-@RequestMapping("/api")
+//@RequestMapping("/api")
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private JwtUtil jwtUtil;
+    private JwtService jwtService;
+
+    @Autowired
+    private AuthenticationService authenticationService;
+/*
+    public UserController(JwtService jwtService, AuthenticationService authenticationService) {
+        this.jwtService = jwtService;
+        this.authenticationService = authenticationService;
+    }
+
+ */
 
     // Endpoint for user registration
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserRegistrationRequest request, BindingResult result) {
-        // Check for validation results
-        if (result.hasErrors()) {
-            return ResponseEntity.badRequest().body(result.getAllErrors());
-        }
+
         // Check if the username already exists
-        if (userRepository.existsByUsername(request.getUsername())) {
+        if (userService.existsByUsername(request.getUsername())) {
+
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Username already exists");
         }
 
         // Check if password and confirmation match
         if (!request.getPassword().equals(request.getConfirmPassword())) {
+
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Password and confirm password do not match");
         }
 
+        // Check for validation results
+        if (result.hasErrors()) {
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Validation error: " + result.getAllErrors());
+        }
+
         try {
-            // Create and save user with encrypted password
-            User user = new User(request.getUsername(), passwordEncoder.encode(request.getPassword()));
-            userRepository.save(user);
+            User registeredUser = authenticationService.register(request);
 
-            String token = jwtUtil.generateToken(user.getUsername());
+            String token = jwtService.generateToken(registeredUser);
 
-            Map<String, String> response = new HashMap<>();
-            response.put("token", token);
+            return ResponseEntity.ok(token);
+            //return ResponseEntity.ok(registeredUser);
+        } catch (Exception e) {
 
-            // Successful response with the created user
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
-        } catch (DataIntegrityViolationException e) {
-            // Error saving user to the database
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error saving user to the database");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error registering user");
         }
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody @Valid UserLoginRequest request) {
-        Optional<User> userOptional = userRepository.findByUsername(request.getUsername());
-        if (userOptional.isEmpty() || !passwordEncoder.matches(request.getPassword(), userOptional.get().getPassword())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+
+        try {
+            User authenticatedUser = authenticationService.authenticate(request);
+            if (authenticatedUser == null || !passwordEncoder.matches(request.getPassword(), authenticatedUser.getPassword())) {
+
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
+            }
+
+            String jwtToken = jwtService.generateToken(authenticatedUser);
+            LoginResponse loginResponse = new LoginResponse(jwtToken, jwtService.getExpirationTime());
+
+            return ResponseEntity.ok(loginResponse);
+        } catch (RuntimeException e) {
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
         }
-
-        String token = jwtUtil.generateToken(userOptional.get().getUsername());
-
-        Map<String, String> response = new HashMap<>();
-        response.put("token", token);
-
-        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/logout")

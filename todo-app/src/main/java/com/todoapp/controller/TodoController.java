@@ -3,52 +3,49 @@ package com.todoapp.controller;
 import com.todoapp.model.Todo;
 import com.todoapp.model.TodoRequest;
 import com.todoapp.model.User;
-import com.todoapp.repository.TodoRepository;
-import com.todoapp.repository.UserRepository;
 import com.todoapp.service.TodoService;
+import com.todoapp.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/todos")
+@RequestMapping("/todos")
 public class TodoController {
 
     private final TodoService todoService;
-    private final TodoRepository todoRepository;
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     @Autowired
-    public TodoController(TodoService todoService, TodoRepository todoRepository, UserRepository userRepository) {
+    public TodoController(TodoService todoService, UserService userService) {
         this.todoService = todoService;
-        this.todoRepository = todoRepository;
-        this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @PostMapping
-    public ResponseEntity<Todo> addTodo(@Valid @RequestBody TodoRequest todoRequest) {
-        Todo todo = new Todo();
-        todo.setTitle(todoRequest.getTitle());
-        todo.setDescription(todoRequest.getDescription());
-        todo.setDueDate(todoRequest.getDueDate());
-        todo.setCompleted(todoRequest.isCompleted());
+    public ResponseEntity<Todo> addTodo(@Valid @RequestBody TodoRequest todoRequest, Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User user = userService.findUserByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
-        Todo savedTodo = todoService.save(todo);
-        return new ResponseEntity<>(savedTodo, HttpStatus.CREATED);
+        Todo todo = new Todo(todoRequest.getTitle(),
+                todoRequest.getDescription(),
+                todoRequest.getDueDate(),
+                todoRequest.isCompleted(),
+                user);
+
+        Todo savedTodo = todoService.addTodo(todo);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedTodo);
     }
 
-    /*
-    @GetMapping
-    public List<Todo> getTodos() {
-        return todoService.findAll();
-    }
-     */
 
     @GetMapping
     public ResponseEntity<List<Todo>> getTodos(Authentication authentication) {
@@ -56,16 +53,17 @@ public class TodoController {
         String username = authentication.getName();
 
         // Find user by username
-        Optional<User> optionalUser = userRepository.findByUsername(username);
+        Optional<User> optionalUser = userService.findUserByUsername(username);
         if (!optionalUser.isPresent()) {
             return ResponseEntity.notFound().build();
         }
         User user = optionalUser.get();
 
         // Find todos for the user
-        List<Todo> todos = todoRepository.findByUserId(user.getId());
+        List<Todo> todos = todoService.findAllByUserId(user.getId());
 
-        return ResponseEntity.ok(todos);
+        // return ResponseEntity.ok(todos);
+        return ResponseEntity.ok().body(todos);
     }
 
     @GetMapping("/{id}")
@@ -84,7 +82,7 @@ public class TodoController {
             todo.setDescription(todoRequest.getDescription());
             todo.setDueDate(todoRequest.getDueDate());
             todo.setCompleted(todoRequest.isCompleted());
-            Todo updatedTodo = todoService.save(todo);
+            Todo updatedTodo = todoService.addTodo(todo);
             return ResponseEntity.ok(updatedTodo);
         } else {
             return ResponseEntity.notFound().build();

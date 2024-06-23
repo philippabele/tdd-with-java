@@ -45,9 +45,9 @@ public class TodoServiceTest {
     }
 
     @Test
-    public void testSaveTodo() {
+    public void testAddTodo() {
         given(todoRepository.save(any(Todo.class))).willReturn(todo);
-        Todo savedTodo = todoService.save(todo);
+        Todo savedTodo = todoService.addTodo(todo);
         assertEquals(todo, savedTodo);
         verify(todoRepository, times(1)).save(todo);
     }
@@ -82,7 +82,7 @@ public class TodoServiceTest {
     public void testUpdateTodo() {
         given(todoRepository.save(any(Todo.class))).willReturn(todo);
         todo.setTitle("Updated Title");
-        Todo updatedTodo = todoService.save(todo);
+        Todo updatedTodo = todoService.addTodo(todo);
         assertEquals("Updated Title", updatedTodo.getTitle());
         verify(todoRepository, times(1)).save(todo);
     }
