@@ -14,61 +14,165 @@ Die Entwicklung der Todo-App erfolgte in einer modernen Java-Entwicklungsumgebun
 
 \section{Implementierungsschritte}
 
-Die Implementierung der Todo-App folgte dem klassischen TDD-Zyklus: \textbf{Red-Green-Refactor}.
+Die Implementierung der Benutzerregistrierung in der Todo-App folgte dem klassischen TDD-Zyklus: \textbf{Red-Green-Refactor}.
 
 \begin{enumerate}
-	\item \textbf{Red Phase}: Zunächst wurde ein fehlgeschlagener Test (Red) geschrieben, der eine bestimmte Funktionalität beschreibt, die noch nicht implementiert war.
+	\item \textbf{Red Phase}: Zunächst wurde ein fehlgeschlagener Test (Red) geschrieben, der die Registrierung eines neuen Benutzers beschreibt, ohne dass die Implementierung vorhanden war.
 	
-	Beispiel: Ein Test für das Erstellen einer neuen Aufgabe (Todo).
-	\begin{lstlisting}
+	Beispiel: Ein Test für die Registrierung eines neuen Benutzers über den UserController.
+	\begin{lstlisting}[language=Java]
 		@Test
-		@WithMockUser(username = "user")
-		public void testAddTodo_success() throws Exception {
-			TodoRequest request = new TodoRequest("Test Title", "Test Description", LocalDate.of(2024, 5, 30), false);
+		public void testRegisterUser_success() throws Exception {
+			UserRegistrationRequest request = new UserRegistrationRequest();
+			request.setUsername("integrationtestuser");
+			request.setPassword("password");
+			request.setConfirmPassword("password");
 			
-			Todo todo = new Todo();
-			todo.setId(1L);
-			todo.setTitle("Test Title");
-			todo.setDescription("Test Description");
-			todo.setDueDate(LocalDate.of(2024, 5, 30));
-			todo.setCompleted(false);
-			
-			given(todoRepository.save(any(Todo.class))).willReturn(todo);
-			
-			mockMvc.perform(MockMvcRequestBuilders.post("/api/todos")
+			ResultActions result = mockMvc.perform(post("/register")
 			.contentType(MediaType.APPLICATION_JSON)
-			.content(asJsonString(request)))
-			.andExpect(status().isCreated())
-			.andExpect(jsonPath("$.id").value(1L))
-			.andExpect(jsonPath("$.title").value("Test Title"))
-			.andExpect(jsonPath("$.description").value("Test Description"))
-			.andExpect(jsonPath("$.dueDate[0]").value(2024))
-			.andExpect(jsonPath("$.dueDate[1]").value(5))
-			.andExpect(jsonPath("$.dueDate[2]").value(30))
-			.andExpect(jsonPath("$.completed").value(false));
+			.content(objectMapper.writeValueAsString(request)));
+			
+			result.andExpect(status().isOk());
 		}
 	\end{lstlisting}
 	
 	\item \textbf{Green Phase}: Anschließend wurde der minimal notwendige Code geschrieben, um den Test erfolgreich zu bestehen (Green). In diesem Schritt wird nur so viel implementiert, dass der Testfall erfüllt wird.
 	
-	Beispiel: Die Implementierung des addTodo-Endpunkts im TodoController.
-	\begin{lstlisting}
-		@PostMapping
-		public ResponseEntity<Todo> addTodo(@RequestBody TodoRequest todoRequest) {
-			Todo todo = new Todo();
-			todo.setTitle(todoRequest.getTitle());
-			todo.setDescription(todoRequest.getDescription());
-			todo.setDueDate(todoRequest.getDueDate());
-			todo.setCompleted(todoRequest.isCompleted());
-			Todo savedTodo = todoRepository.save(todo);
-			return new ResponseEntity<>(savedTodo, HttpStatus.CREATED);
+	Beispiel: Die grundlegende Implementierung des registerUser-Endpunkts im UserController.
+	
+	\begin{lstlisting}[language=Java]
+		@PostMapping("/register")
+		public ResponseEntity<?> registerUser(@RequestBody UserRegistrationRequest request) {
+			User user = new User();
+			user.setUsername(request.getUsername());
+			user.setPassword(passwordEncoder.encode(request.getPassword()));
+			
+			return ResponseEntity.ok(user);
 		}
 	\end{lstlisting}
 	
 	\item \textbf{Refactor Phase}: Nach dem erfolgreichen Bestehen des Tests wurde der Code optimiert und verbessert, ohne die Funktionalität zu ändern. Dabei wurde auf Sauberkeit, Lesbarkeit und Wartbarkeit des Codes geachtet.
 	
-	Beispiel: Refaktorierung der Todo-Entität zur Einhaltung von Best Practices und Optimierung der Geschäftslogik.
+	Beispiel: Die vollständige Implementierung des registerUser-Endpunktes im UserController zeigt, dass ein Refactoring erfolgte, nachdem die Implementierung zum erfolgreichen Ausführen von Test, wie zum Beispiel des Testens der Fehlerbehandlung von bereits existierenden Benutzernamen, hinzugefügt wurde.
+	
+	\begin{lstlisting}[language=Java]
+		@PostMapping("/register")
+		public ResponseEntity<?> registerUser(@Valid @RequestBody UserRegistrationRequest request, BindingResult result) {
+			// Check if username already exists
+			if (userService.existsByUsername(request.getUsername())) {
+				return ResponseEntity.status(HttpStatus.CONFLICT).body("Username already exists");
+			}
+			
+			// Check if password and confirmation match
+			if (!request.getPassword().equals(request.getConfirmPassword())) {
+				
+				return ResponseEntity.status(HttpStatus.CONFLICT).body("Password and confirm password do not match");
+			}
+			
+			// Check for validation results
+			if (result.hasErrors()) {
+				
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Validation error: " + result.getAllErrors());
+			}
+			
+			// Register user
+			try {
+				User user = authenticationService.register(request);
+				return ResponseEntity.ok(user);
+			} catch (Exception e) {
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error registering user");
+			}
+		}
+	\end{lstlisting}
 	
 \end{enumerate}
 
 Die konsequente Anwendung des TDD-Zyklus gewährleistet, dass die Implementierung kontinuierlich durch Tests begleitet und abgesichert wird und somit zu einem stabilen und fehlerarmen Code führen kann.
+
+\section{Beispieltests und Testfälle}
+
+\section{Unit-Tests}
+
+Unit-Tests wurden verwendet, um einzelne Komponenten isoliert zu testen. Ein Beispiel ist der Test der \texttt{UserController}-Klasse, um sicherzustellen, dass eine Registrierung eines Benutzers erfolgreich verläuft.
+
+\begin{lstlisting}[language=Java]
+	@Test
+	public void testRegisterUserPasswordMismatch() {
+		UserRegistrationRequest request = new UserRegistrationRequest("testuser", "password1", "password2");
+		
+		BindingResult result = mock(BindingResult.class);
+		ResponseEntity<?> response = userController.registerUser(request, result);
+		
+		assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+		assertEquals("Password and confirm password do not match", response.getBody());
+	}
+\end{lstlisting}
+
+\section{Integrationstests}
+
+Integrationstests wurden durchgeführt, um das Zusammenspiel verschiedener Komponenten zu überprüfen. Ein Beispiel ist der Integrationstest für die Benutzerregistrierung über den \texttt{UserController}.
+
+\begin{lstlisting}[language=Java]
+	@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+	public class UserRegistrationAcceptanceTest {
+		
+		@LocalServerPort
+		private int port;
+		
+		@Autowired
+		private TestRestTemplate restTemplate;
+		
+		@Test
+		public void testRegisterUser() {
+			String url = "http://localhost:" + port + "/register";
+			UserRegistrationRequest request = new UserRegistrationRequest("testuser", "password", "password");
+			
+			HttpHeaders headers = new HttpHeaders();
+			HttpEntity<UserRegistrationRequest> entity = new HttpEntity<>(request, headers);
+			
+			// Send HTTP POST request
+			ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+			
+			// Check if the response status code is 409 (CONFLICT)
+			assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+		}
+	}
+\end{lstlisting}
+
+
+\section{Akzeptanztests}
+
+Akzeptanztests wurden verwendet, um sicherzustellen, dass die Anwendung den Anforderungen der Benutzer entspricht. Diese Tests wurden aus der Sicht des Endbenutzers geschrieben und überprüfen die Funktionalität der gesamten Anwendung.
+
+Ein Beispiel ist der Akzeptanztest für die Benutzerregistrierung über die REST-Schnittstelle.
+
+
+\begin{lstlisting}[language=Java]
+	@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+	public class UserRegistrationAcceptanceTest {
+		
+		@LocalServerPort
+		private int port;
+		
+		@Autowired
+		private TestRestTemplate restTemplate;
+		
+		@Test
+		public void testRegisterUser() {
+			String url = "http://localhost:" + port + "/register";
+			UserRegistrationRequest request = new UserRegistrationRequest("testuser", "password", "password");
+			
+			HttpHeaders headers = new HttpHeaders();
+			HttpEntity<UserRegistrationRequest> entity = new HttpEntity<>(request, headers);
+			
+			// Send HTTP POST request
+			ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+			
+			// Check if the response status code is 409 (CONFLICT)
+			assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+		}
+	}
+\end{lstlisting}
+
+Diese strukturierte Vorgehensweise durch TDD führte zu einer robusten und fehlerarmen Implementierung der Todo-App, da jedes Feature durch entsprechende Tests abgesichert und validiert wurde.
+
