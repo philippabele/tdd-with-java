@@ -2383,7 +2383,25 @@
     <bcf:citekey order="20" intorder="1">schatten_best_2010</bcf:citekey>
     <bcf:citekey order="21" intorder="1">schatten_best_2010</bcf:citekey>
     <bcf:citekey order="22" intorder="1">schatten_best_2010</bcf:citekey>
-    <bcf:citekey order="23" intorder="1">nielsen_10_nodate</bcf:citekey>
+    <bcf:citekey order="23" intorder="1">noauthor_mysql_nodate</bcf:citekey>
+    <bcf:citekey order="24" intorder="1">noauthor_mysql_nodate</bcf:citekey>
+    <bcf:citekey order="25" intorder="1">noauthor_mysql_nodate</bcf:citekey>
+    <bcf:citekey order="26" intorder="1">noauthor_was_2022</bcf:citekey>
+    <bcf:citekey order="27" intorder="1">noauthor_was_2022</bcf:citekey>
+    <bcf:citekey order="28" intorder="1">noauthor_was_2022</bcf:citekey>
+    <bcf:citekey order="29" intorder="1">nielsen_10_nodate</bcf:citekey>
+    <bcf:citekey order="30" intorder="1">noauthor_intellij_nodate</bcf:citekey>
+    <bcf:citekey order="31" intorder="1">noauthor_maven_nodate</bcf:citekey>
+    <bcf:citekey order="32" intorder="1">noauthor_build_2024</bcf:citekey>
+    <bcf:citekey order="33" intorder="1">noauthor_xampp_nodate</bcf:citekey>
+    <bcf:citekey order="34" intorder="1">noauthor_vuejs_nodate</bcf:citekey>
+    <bcf:citekey order="35" intorder="1">noauthor_vuejs_nodate</bcf:citekey>
+    <bcf:citekey order="36" intorder="1">noauthor_vuejs_nodate</bcf:citekey>
+    <bcf:citekey order="37" intorder="1">noauthor_vuejs_nodate</bcf:citekey>
+    <bcf:citekey order="38" intorder="1">noauthor_vuejs_nodate</bcf:citekey>
+    <bcf:citekey order="39" intorder="1">noauthor_vuejs_nodate</bcf:citekey>
+    <bcf:citekey order="40" intorder="1">noauthor_philippabeletdd--java_nodate</bcf:citekey>
+    <bcf:citekey order="41" intorder="1">noauthor_philippabeletdd--java_nodate</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">

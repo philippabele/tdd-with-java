@@ -1,20 +1,21 @@
-\chapter{Implementierung unter Verwendung von TDD}
+\chapter{Backend-Implementierung unter Verwendung von TDD}
 
 \section{Entwicklungsumgebung und Werkzeuge}
 
 Die Entwicklung der Todo-App erfolgte in einer modernen Java-Entwicklungsumgebung, die auf dem Spring Boot Framework basiert. Die wichtigsten verwendeten Tools und Technologien sind:
 
 \begin{itemize}
-	\item \textbf{IDE}: IntelliJ IDEA wurde als Integrated Development Environment (IDE) verwendet, da es umfangreiche Unterstützung für Java und das Spring Framework bietet, einschließlich leistungsstarker Debugging- und Refactoring-Tools.
-	\item \textbf{Build-Tool}: Maven wurde für das Build-Management und die Abhängigkeitsverwaltung eingesetzt. Es ermöglicht die einfache Verwaltung von Bibliotheken und Plugins sowie die Konfiguration von Build-Prozessen.
-	\item \textbf{Versionierung}: Git und GitHub wurden für die Quellcodeverwaltung und Versionskontrolle verwendet. GitHub ermöglichte zudem die Zusammenarbeit und den Austausch von Code.
+	\item \textbf{IDE}: IntelliJ IDEA wurde als Integrated Development Environment (IDE) verwendet, da es umfangreiche Unterstützung für Java und das Spring Framework bietet, einschließlich leistungsstarker Debugging- und Refactoring-Tools \cite{noauthor_intellij_nodate}. 
+	\item \textbf{Build-Tool}: Maven wurde für das Build-Management und die Abhängigkeitsverwaltung eingesetzt. Es ermöglicht die einfache Verwaltung von Bibliotheken und Plugins sowie die Konfiguration von Build-Prozessen \cite{noauthor_maven_nodate}. 
+	\item \textbf{Versionierung}: GitHub wurde für die Quellcodeverwaltung und Versionskontrolle verwendet. GitHub ermöglichte zudem die Zusammenarbeit und den Austausch von Code \cite{noauthor_build_2024}.
 	\item \textbf{Test-Frameworks}: JUnit 5 und Spring Boot Test wurden für die Implementierung und Ausführung von Unit- und Integrationstests verwendet. Mockito diente zur Erstellung von Mock-Objekten für die Isolierung von Testfällen.
-	\item \textbf{Datenbank}: MySQL wurde als relationale Datenbank verwendet. Für die Tests wurde eine MySQL-Testdatenbank konfiguriert, um schnelle und isolierte Testausführungen zu ermöglichen.
+	\item \textbf{Datenbank}: MySQL wurde als relationale Datenbank verwendet. Für die Tests wurde eine MySQL-Testdatenbank konfiguriert, um schnelle und isolierte Testausführungen zu ermöglichen. Für die Entwicklungsumgebung wurde XAMPP verwendet, das eine einfache Möglichkeit bietet, einen lokalen Webserver mit MySQL-Datenbank zu betreiben \cite{noauthor_xampp_nodate}.
+
 \end{itemize}
 
 \section{Implementierungsschritte}
 
-Die Implementierung der Benutzerregistrierung in der Todo-App folgte dem klassischen TDD-Zyklus: \textbf{Red-Green-Refactor}.
+Die Implementierung am Beispiel der Benutzerregistrierung in der Todo-App folgte nach dem klassischen TDD-Zyklus: \textbf{Red-Green-Refactor}.
 
 \begin{enumerate}
 	\item \textbf{Red Phase}: Zunächst wurde ein fehlgeschlagener Test (Red) geschrieben, der die Registrierung eines neuen Benutzers beschreibt, ohne dass die Implementierung vorhanden war.
@@ -87,13 +88,15 @@ Die Implementierung der Benutzerregistrierung in der Todo-App folgte dem klassis
 	
 \end{enumerate}
 
-Die konsequente Anwendung des TDD-Zyklus gewährleistet, dass die Implementierung kontinuierlich durch Tests begleitet und abgesichert wird und somit zu einem stabilen und fehlerarmen Code führen kann.
+Die Anwendung des TDD-Zyklus unterstützt eine stabile Implementierung und kann zu einem fehlerarmen Code führen.
 
 \section{Beispieltests und Testfälle}
 
 \section{Unit-Tests}
 
-Unit-Tests wurden verwendet, um einzelne Komponenten isoliert zu testen. Ein Beispiel ist der Test der \texttt{UserController}-Klasse, um sicherzustellen, dass eine Registrierung eines Benutzers erfolgreich verläuft.
+Unit-Tests wurden verwendet, um einzelne Komponenten isoliert zu testen. 
+
+Ein Beispiel ist der Test der \texttt{UserController}-Klasse, um sicherzustellen, dass eine Registrierung eines Benutzers erfolgreich verläuft.
 
 \begin{lstlisting}[language=Java]
 	@Test
@@ -110,7 +113,9 @@ Unit-Tests wurden verwendet, um einzelne Komponenten isoliert zu testen. Ein Bei
 
 \section{Integrationstests}
 
-Integrationstests wurden durchgeführt, um das Zusammenspiel verschiedener Komponenten zu überprüfen. Ein Beispiel ist der Integrationstest für die Benutzerregistrierung über den \texttt{UserController}.
+Integrationstests wurden durchgeführt, um das Zusammenspiel verschiedener Komponenten zu überprüfen. 
+
+Ein Beispiel ist der Integrationstest für die Benutzerregistrierung über den \texttt{UserController}.
 
 \begin{lstlisting}[language=Java]
 	@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -174,5 +179,5 @@ Ein Beispiel ist der Akzeptanztest für die Benutzerregistrierung über die REST
 	}
 \end{lstlisting}
 
-Diese strukturierte Vorgehensweise durch TDD führte zu einer robusten und fehlerarmen Implementierung der Todo-App, da jedes Feature durch entsprechende Tests abgesichert und validiert wurde.
+Diese strukturierte Vorgehensweise durch TDD unterstützt eine robuste und fehlerarme Implementierung der Todo-Liste.
 

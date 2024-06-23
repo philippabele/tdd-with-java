@@ -88,36 +88,19 @@ Die Todo-Entität wird als Java-Klasse implementiert und mit JPA-Anmerkungen ver
 	}
 \end{lstlisting}
 
-
-%\subsection{Datenbankauswahl}
-
-%Für die Persistenz der Daten wurde MySQL als relationales Datenbankmanagementsystem (RDBMS) ausgewählt. Die Entscheidung für MySQL basiert auf den folgenden Überlegungen:
-
-%\begin{itemize}
-	%\item \textbf{Technische Basis}: MySQL ist ein RDBMS, das Datensätze in mehreren separaten Tabellen speichert. Dies ermöglicht eine strukturierte und kodifizierte Datenspeicherung.
-	%\item \textbf{Verbreitung und Unterstützung}: MySQL bietet eine hohe Kompatibilität mit verschiedenen Systemen, Programmiersprachen und Technologien, was die Integration und Verwaltung erleichtert.
-	%\item \textbf{Open-Source und Flexibilität}: MySQL ist als Open-Source-Software verfügbar, was bedeutet, dass die Basissoftware frei installiert und genutzt werden kann. Der Quellcode kann von Dritten modifiziert und angepasst werden. Es gibt zudem kostenpflichtige Versionen mit erweiterten Funktionen und Dienstleistungen.
-	%\item \textbf{Performance und Zuverlässigkeit}: MySQL ist für seine hohe Geschwindigkeit und Zuverlässigkeit bekannt, unterstützt durch eine große Gemeinschaft von Entwicklern. Es wurde entwickelt, um große Datenbanken effizient zu verarbeiten und wird seit vielen Jahren in produktionsreifen Anwendungen eingesetzt.
-	%\item \textbf{Benutzerfreundlichkeit}: MySQL ist einfach zu installieren und zu nutzen. Viele Aufgaben können über die Befehlszeile erledigt werden, und es gibt zahlreiche Verwaltungstools wie phpMyAdmin, die eine grafische Benutzeroberfläche bieten.
-	%\item \textbf{Verfügbarkeit und Sicherheit}: MySQL bietet hohe Verfügbarkeit durch Cluster-Server und Replikationskonfigurationen, die eine kontinuierliche Betriebszeit sicherstellen. Die Sicherheitsfunktionen umfassen SSL-Verschlüsselung, Datenmaskierung und Authentifizierungs-Plugins.
-	%\item \textbf{Skalierbarkeit}: MySQL kann skaliert werden, um größere Datenmengen zu verarbeiten, allerdings erfordert dies technische Anpassungen. Die native Replikationsarchitektur ermöglicht es, Anwendungen zu skalieren, um eine große Anzahl von Benutzern zu unterstützen.
-	%\item \textbf{Funktionsweise}: MySQL besteht aus einem Server und mehreren Clients. Der Server verwaltet die Datenbanken, während die Clients Anfragen stellen und Daten abrufen können. MySQL unterstützt verschiedene Datentypen und ermöglicht die Verwaltung von Daten über SQL.
-%\end{itemize}
-
-%Die Entscheidung für MySQL beruht auf diesen technischen und funktionalen Eigenschaften, die es zu einer geeigneten Wahl für die Anforderungen des Projekts machen.
-
 \subsection{Projektanforderungen an die Datenbank}
 
 Das Projekt stellt spezifische Anforderungen an die Datenbank, die durch MySQL erfüllt werden:
 
 \begin{itemize}
-	\item \textbf{Datenintegrität und Konsistenz}: Die Datenbank muss in der Lage sein, Daten in einer strukturierten und konsistenten Weise zu speichern. MySQL gewährleistet dies durch die Verwendung relationaler Tabellen und die Unterstützung von Transaktionen.
-	\item \textbf{Hohe Verfügbarkeit}: Das Projekt erfordert eine Datenbank, die rund um die Uhr verfügbar ist, um eine unterbrechungsfreie Nutzung zu gewährleisten. MySQL bietet durch seine Cluster- und Replikationsfunktionen eine hohe Verfügbarkeit.
-	\item \textbf{Skalierbarkeit}: Das Projekt muss in der Lage sein, mit wachsendem Datenvolumen und steigender Benutzeranzahl zu skalieren. MySQL kann durch seine Replikationsarchitektur und die Möglichkeit zur Anpassung an größere Datenmengen skaliert werden.
-	\item \textbf{Sicherheit}: Der Schutz sensibler Daten ist von entscheidender Bedeutung. MySQL bietet umfassende Sicherheitsfunktionen wie SSL-Verschlüsselung, Datenmaskierung und Authentifizierungs-Plugins, um die Datensicherheit zu gewährleisten.
-	\item \textbf{Performance}: Das Projekt erfordert schnelle Datenverarbeitungszeiten, um eine reibungslose Benutzererfahrung zu gewährleisten. MySQL bietet eine hohe Geschwindigkeit und Effizienz bei der Verarbeitung großer Datenbanken.
-	\item \textbf{Flexibilität und Integration}: Die Datenbank muss flexibel genug sein, um mit verschiedenen Programmiersprachen und Technologien integriert zu werden. MySQL bietet eine breite Unterstützung für verschiedene Systeme und Schnittstellen.
-	\item \textbf{Benutzerfreundlichkeit}: Eine einfache Installation und Verwaltung der Datenbank ist erforderlich, um den Entwicklungsprozess zu optimieren. MySQL ist benutzerfreundlich und bietet zahlreiche Verwaltungstools, die die Bedienung erleichtern.
+	
+	\item \textbf{Open source}: Die Datenbank muss open source sein, da keine Kosten für die Verwendung der Datenbank anfallen dürfen. My SQL bietet eine MySQL Community Edition an, die open source ist \cite{noauthor_mysql_nodate}.
+	\item \textbf{Datenintegrität und Konsistenz}: Die Datenbank muss in der Lage sein, Daten in einer strukturierten und konsistenten Weise zu speichern. MySQL gewährleistet dies durch die Verwendung relationaler Tabellen und die Unterstützung von Transaktionen \cite{noauthor_mysql_nodate} .
+	%\item \textbf{Skalierbarkeit}: Das Projekt muss in der Lage sein, mit wachsendem Datenvolumen und steigender Benutzeranzahl zu skalieren.
+	\item \textbf{Sicherheit}: Der Schutz sensibler Daten ist von entscheidender Bedeutung. MySQL bietet umfassende Sicherheitsfunktionen wie SSL-Verschlüsselung, Datenmaskierung und Authentifizierungs-Plugins, um die Datensicherheit zu gewährleisten \cite{noauthor_mysql_nodate} .
+	\item \textbf{Performance}: Das Projekt erfordert schnelle Datenverarbeitungszeiten, um eine reibungslose Benutzererfahrung zu gewährleisten. MySQL bietet eine hohe Geschwindigkeit und Effizienz bei der Verarbeitung großer Datenbanken\cite{noauthor_was_2022}.
+	\item \textbf{Flexibilität und Integration}: Die Datenbank muss flexibel genug sein, um mit verschiedenen Programmiersprachen und Technologien integriert zu werden. MySQL bietet eine breite Unterstützung für verschiedene Systeme und Schnittstellen \cite{noauthor_was_2022}.
+	\item \textbf{Benutzerfreundlichkeit}: Eine einfache Installation und Verwaltung der Datenbank ist erforderlich, um den Entwicklungsprozess zu optimieren. MySQL ist benutzerfreundlich und bietet zahlreiche Verwaltungstools, die die Bedienung erleichtern \cite{noauthor_was_2022}.
 \end{itemize}
 
 Diese Anforderungen des Projekts werden durch die funktionalen und technischen Merkmale von MySQL umfassend abgedeckt, was die Entscheidung für MySQL als Datenbanklösung rechtfertigt.
@@ -153,7 +136,7 @@ Durch diese Struktur wird sichergestellt, dass jede Aufgabe eindeutig einem Benu
 Die Benutzeroberfläche der Todo-App ist so gestaltet, dass sie intuitiv und benutzerfreundlich ist. Die Anwendung besteht aus mehreren Ansichten, die jeweils spezifische Funktionen bereitstellen:
 
 \begin{itemize}
-	\item \textbf{/index}: Die Startseite der Anwendung siehe Abbildung \ref{UI_index}. Diese Seite bietet zwei Hauptoptionen: "`Log in"' und "`Sign up"'. Dies ermöglicht neuen Benutzern die Registrierung und bestehenden Benutzern die Anmeldung.
+	\item \textbf{/IndexView}: Die Startseite der Anwendung siehe Abbildung \ref{UI_index}. Diese Seite bietet zwei Hauptoptionen: "`Log in"' und "`Sign up"'. Dies ermöglicht neuen Benutzern die Registrierung und bestehenden Benutzern die Anmeldung.
 	
 	\begin{figure}[h]
 		\centering
@@ -162,7 +145,7 @@ Die Benutzeroberfläche der Todo-App ist so gestaltet, dass sie intuitiv und ben
 		\label{UI_index}
 	\end{figure}	
 	
-	\item \textbf{/login}: Die Anmeldeseite siehe Abbildung \ref{UI_logIn}. Hier können Benutzer ihren Benutzernamen und ihr Passwort eingeben, um auf ihre persönlichen Aufgabenlisten zuzugreifen. Ein Link zur Registrierung ist ebenfalls vorhanden.
+	\item \textbf{/LoginView}: Die Anmeldeseite siehe Abbildung \ref{UI_logIn}. Hier können Benutzer ihren Benutzernamen und ihr Passwort eingeben, um auf ihre persönlichen Aufgabenlisten zuzugreifen. Ein Link zur Registrierung ist ebenfalls vorhanden.
 	
 	\begin{figure}[h]
 		\centering
@@ -171,7 +154,7 @@ Die Benutzeroberfläche der Todo-App ist so gestaltet, dass sie intuitiv und ben
 		\label{UI_logIn}
 	\end{figure}	
 	
-	\item \textbf{/signup}: Die Registrierungsseite siehe Abbildung \ref{UI_signUp}. Neue Benutzer können hier ein Konto erstellen, indem sie ihren Benutzernamen, ihr Passwort und die Bestätigung des Passworts eingeben. Ein Link zur Anmeldung für bestehende Benutzer ist ebenfalls verfügbar.
+	\item \textbf{/RegisterView}: Die Registrierungsseite siehe Abbildung \ref{UI_signUp}. Neue Benutzer können hier ein Konto erstellen, indem sie ihren Benutzernamen, ihr Passwort und die Bestätigung des Passworts eingeben. Ein Link zur Anmeldung für bestehende Benutzer ist ebenfalls verfügbar.
 	
 	\begin{figure}[h]
 		\centering
@@ -180,7 +163,7 @@ Die Benutzeroberfläche der Todo-App ist so gestaltet, dass sie intuitiv und ben
 		\label{UI_signUp}
 	\end{figure}	
 	
-	\item \textbf{/home}: Die Hauptseite nach der Anmeldung siehe Abbildung \ref{UI_home}. Diese Seite zeigt die Aufgabenliste des angemeldeten Benutzers. Benutzer können neue Aufgaben erstellen, vorhandene Aufgaben bearbeiten oder löschen.
+	\item \textbf{/HomeView}: Die Hauptseite nach der Anmeldung siehe Abbildung \ref{UI_home}. Diese Seite zeigt die Aufgabenliste des angemeldeten Benutzers. Benutzer können neue Aufgaben erstellen, vorhandene Aufgaben bearbeiten oder löschen.
 	
 	\begin{figure}[h]
 		\centering
@@ -189,18 +172,28 @@ Die Benutzeroberfläche der Todo-App ist so gestaltet, dass sie intuitiv und ben
 		\label{UI_home}
 	\end{figure}	
 	
-	\item \textbf{/{id\_Todo}}: Die Detailansicht einer spezifischen Todo siehe Abbildung \ref{UI_idTodo}. Diese Seite ermöglicht es Benutzern, die Details einer ausgewählten Todo zu bearbeiten.
+	\item \textbf{/NewTodoForm}: Diese Seite bietet ein Formular zum Erstellen einer neuen Todo siehe Abbildung \ref{UI_newTodo}.
+	% TODO
+	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[clip,width=0.75\linewidth]{images/newTodo.png}
+		\caption[User Interface Design der Ansicht zum Erstellen einer neuen Todo]{User Interface Design der Ansicht zum Erstellen einer neuen Todo [Eigene Darstellung]}
+		\label{UI_newTodo}
+	\end{figure}
+	
+	\item \textbf{/TodoDetailView}: Die Detailansicht einer spezifischen Todo siehe Abbildung \ref{UI_idTodo}. Diese Seite ermöglicht es Benutzern, die Details einer ausgewählten Todo zu bearbeiten.
 	
 	\begin{figure}[h]
 		\centering
 		\includegraphics[clip,width=0.75\linewidth]{images/idTodo.png}
-		\caption[User Interface Design der Detailansicht]{User Interface Design der Detailansicht [Eigene Darstellung]}
+		\caption[User Interface Design der Detailansicht zum Bearbeiten]{User Interface Design der Detailansicht [Eigene Darstellung]}
 		\label{UI_idTodo}
 	\end{figure}	
 	
 \end{itemize}
 
-Jede Seite hat ein konsistentes Layout mit einem zentralen Header, der den Titel "`Your own TODO-List"' und ein Benutzer-Icon enthält. Das Benutzer-Icon signalisiert, ob ein Benutzer angemeldet ist, indem das Icon ausgefüllt ist oder, ob sich der Benutzer noch nicht angemeldet hat (unausgefülltes Icon). Bei dem drüberhoovern über das ausgefüllt Benutzer-Icon Symbol bietet sich die Möglichkeit zum abmelden ("`log out"') des angemeldeten Benutzers. 
+Jede Seite hat ein konsistentes Layout mit einem zentralen Header. Der Header ist als eine Komponente in der \textbf{/HeaderBar} definiert. Er enthält das Logo "`Your own TODO-List"' und die Logout-Option, abhängig davon, ob der Benutzer angemeldet ist.
 
 \subsection{Berücksichtigung von Usability-Prinzipien}
 
@@ -216,19 +209,11 @@ Das User Interface Design der Todo-App folgt mehreren grundlegenden Usability-Pr
 	\item \textbf{Wiedererkennung statt Erinnerung}: Die Benutzeroberfläche macht alle wichtigen Optionen und Funktionen sichtbar, damit Benutzer sie leicht wiedererkennen können, anstatt sich an sie erinnern zu müssen. Wichtige Elemente wie Schaltflächen und Eingabefelder sind prominent platziert und leicht zu finden. Der Einsatz von Farben und Schriftgrößen hilft, die Aufmerksamkeit der Benutzer auf wichtige Aktionen und Informationen zu lenken.
 	%\item \textbf{Flexibilität und Effizienz der Nutzung}: 
 	\item \textbf{Ästhetik und minimalistisches Design}: Das Design ist einfach und übersichtlich gehalten, um die Benutzerfreundlichkeit zu erhöhen. Unnötige Elemente wurden vermieden, um Ablenkungen zu minimieren und den Fokus auf die Hauptfunktionen der Anwendung zu legen.
-	%\item \textbf{Hilfe beim Erkennen, Diagnostizieren und Beheben von Fehlern}: Fehlernachrichten sind in einfacher Sprache verfasst und bieten klare Hinweise zur Problemlösung. Beispielsweise wird bei einer fehlerhaften Anmeldung eine verständliche Fehlermeldung angezeigt und mögliche Lösungen vorgeschlagen.
+	\item \textbf{Hilfe beim Erkennen, Diagnostizieren und Beheben von Fehlern}: Fehlernachrichten sind in einfacher Sprache verfasst und bieten klare Hinweise zur Problemlösung. Beispielsweise wird bei einer fehlerhaften Anmeldung eine verständliche Fehlermeldung angezeigt und mögliche Lösungen vorgeschlagen.
 	% TODO: Fehlermeldungen und Lösungsmöglichkeiten
 	%\item \textbf{Hilfe und Dokumentation}: Obwohl die App so gestaltet ist, dass sie intuitiv bedienbar ist, steht den Benutzern bei Bedarf eine leicht durchsuchbare Hilfedokumentation zur Verfügung. Diese enthält konkrete Anleitungen zur Durchführung von Aufgaben.
 \end{enumerate}
 
-%\begin{enumerate}
-%\item \textbf{Konsistenz}: Das Layout und das Design der Benutzeroberfläche sind auf allen Seiten der Anwendung konsistent. Dies erleichtert den Benutzern das Verständnis und die Navigation durch die App.
-%\item \textbf{Einfache Navigation}: Die Anwendung bietet klare und sichtbare Navigationselemente. Links und Schaltflächen sind eindeutig beschriftet und führen den Benutzer durch die verschiedenen Schritte, wie Anmeldung, Registrierung und Verwaltung der Aufgaben.
-%\item \textbf{Feedback}: Die App gibt dem Benutzer sofortiges Feedback auf seine Aktionen. Beispielsweise werden Änderungen an Aufgaben sofort angezeigt, und erfolgreiche Anmeldungen führen direkt zur Hauptseite mit der Aufgabenliste.
-%\item \textbf{Zugänglichkeit}: Alle Eingabefelder und Schaltflächen sind groß genug und gut platziert, um sowohl auf Desktop- als auch auf mobilen Geräten leicht zugänglich zu sein.
-%\item \textbf{Visuelle Hierarchie}: Wichtige Elemente wie Schaltflächen und Eingabefelder sind prominent platziert und leicht zu finden. Der Einsatz von Farben und Schriftgrößen hilft, die Aufmerksamkeit der Benutzer auf wichtige Aktionen und Informationen zu lenken.
-%\item \textbf{Minimalistisches Design}: Das Design ist einfach und nicht überladen, was die Benutzerfreundlichkeit erhöht. Unnötige Elemente wurden vermieden, um die Ablenkung zu minimieren und den Fokus auf die Hauptfunktionen der Anwendung zu legen.
-%\end{enumerate}
 
 
 

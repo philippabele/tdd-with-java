@@ -1,0 +1,42 @@
+\chapter{Deployment}
+
+Um die Todo-Liste Webanwendung bereitzustellen und zu starten, sind mehrere Schritte erforderlich, einschließlich der Einrichtung der Datenbank und der Ausführung der Anwendung sowohl für das Frontend als auch das Backend.
+
+\section{Datenbank einrichten}
+
+Zunächst muss die MySQL-Datenbank eingerichtet werden, um die Daten der Todo-Liste speichern zu können. Für die Entwicklungsumgebung wurde XAMPP verwendet, das eine einfache Möglichkeit bietet, einen lokalen Webserver mit MySQL-Datenbank zu betreiben. Für die Konfiguration können die folgenden Informationen aus der application.properties verwendet werden:
+
+\begin{lstlisting}
+spring.datasource.url=jdbc:mysql://localhost:3306/todoappdb
+spring.datasource.username=springuser
+spring.datasource.password=123456
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
+\end{lstlisting}
+
+das notwendige Datenbankdesign, kann aus dem Kapitel 3.2.3 Datenbankdesign entnommen werden.
+
+
+\section{Backend starten}
+Das Backend der Todo-Liste Webanwendung ist mit Spring Boot implementiert. Hier sind die Schritte zum Starten des Backends:
+
+\begin{enumerate}
+	\item \textbf{Projekt herunterladen und öffnen:} Das Projekt muss zunächst von dem Versionskontrollsystem Github geruntergeladen werden und anschließend in einer bevorzugten IDE geöffnet werden \cite{noauthor_philippabeletdd--java_nodate}. 	%Verweis auf sein Projekt
+	\item \textbf{Konfigurieren der Datenbankverbindung:} Die Datenbankeinstellungen in der Datei "`src/main/resources/application.properties"' müssen so angepasst sein, dass Zugriff auf die zuvor erstellte Datenbank ermöglicht werden kann.
+	\item \textbf{Starten der Backends:} Die Spring Boot-Anwendung kann mittels dem Aufrufen der "`main"'-Methode in der Hauptklasse ("`TodoApplication"') gestartet werden.
+\end{enumerate}
+
+\section{Frontend starten}
+Das Frontend der Todo-Liste Webanwendung basiert auf Vue.js. Hier sind die Schritte zum Starten des Frontends:
+
+\begin{enumerate}
+	\item \textbf{Projekt herunterladen und öffnen:} Das Projekt muss zunächst von dem Versionskontrollsystem Github geruntergeladen werden und anschließend in einer bevorzugten IDE geöffnet werden \cite{noauthor_philippabeletdd--java_nodate}. .
+	\item \textbf{Installieren der Abhängigkeiten:} Mittels einer Befehlszeile kann zum Verzeichnis des Frontend-Projekts navigiert werden. Durch den Befehl "`npm install"' werden alle Abhängigkeiten installiert, die in der "`package.json"'-Datei aufgeführt sind.
+	\item \textbf{Starten der Frontends:} Nachdem alle Abhängigkeiten installiert wurden, kann das Frontend mit dem Befehl "`npm run serve"' gestartet werden.
+\end{enumerate}
+	
+\section{Zugriff auf Todo-Liste Webanwendung}
+Nachdem sowohl das Backend als auch das Frontend gestartet wurde, kann auf die Todo-Liste Webanwendung zugegriffen werden. Hierfür muss ein Webbrowser geöffnet und zu der URL "`localhost:8081"' navigiert werden. Es erscheint die Startseite der Todo-Liste, in der sich registriert oder angemeldet werden kann.
+
