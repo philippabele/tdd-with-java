@@ -1,0 +1,74 @@
+\chapter{Implementierung unter Verwendung von TDD}
+
+\section{Entwicklungsumgebung und Werkzeuge}
+
+Die Entwicklung der Todo-App erfolgte in einer modernen Java-Entwicklungsumgebung, die auf dem Spring Boot Framework basiert. Die wichtigsten verwendeten Tools und Technologien sind:
+
+\begin{itemize}
+	\item \textbf{IDE}: IntelliJ IDEA wurde als Integrated Development Environment (IDE) verwendet, da es umfangreiche Unterstützung für Java und das Spring Framework bietet, einschließlich leistungsstarker Debugging- und Refactoring-Tools.
+	\item \textbf{Build-Tool}: Maven wurde für das Build-Management und die Abhängigkeitsverwaltung eingesetzt. Es ermöglicht die einfache Verwaltung von Bibliotheken und Plugins sowie die Konfiguration von Build-Prozessen.
+	\item \textbf{Versionierung}: Git und GitHub wurden für die Quellcodeverwaltung und Versionskontrolle verwendet. GitHub ermöglichte zudem die Zusammenarbeit und den Austausch von Code.
+	\item \textbf{Test-Frameworks}: JUnit 5 und Spring Boot Test wurden für die Implementierung und Ausführung von Unit- und Integrationstests verwendet. Mockito diente zur Erstellung von Mock-Objekten für die Isolierung von Testfällen.
+	\item \textbf{Datenbank}: MySQL wurde als relationale Datenbank verwendet. Für die Tests wurde eine MySQL-Testdatenbank konfiguriert, um schnelle und isolierte Testausführungen zu ermöglichen.
+\end{itemize}
+
+\section{Implementierungsschritte}
+
+Die Implementierung der Todo-App folgte dem klassischen TDD-Zyklus: \textbf{Red-Green-Refactor}.
+
+\begin{enumerate}
+	\item \textbf{Red Phase}: Zunächst wurde ein fehlgeschlagener Test (Red) geschrieben, der eine bestimmte Funktionalität beschreibt, die noch nicht implementiert war.
+	
+	Beispiel: Ein Test für das Erstellen einer neuen Aufgabe (Todo).
+	\begin{lstlisting}
+		@Test
+		@WithMockUser(username = "user")
+		public void testAddTodo_success() throws Exception {
+			TodoRequest request = new TodoRequest("Test Title", "Test Description", LocalDate.of(2024, 5, 30), false);
+			
+			Todo todo = new Todo();
+			todo.setId(1L);
+			todo.setTitle("Test Title");
+			todo.setDescription("Test Description");
+			todo.setDueDate(LocalDate.of(2024, 5, 30));
+			todo.setCompleted(false);
+			
+			given(todoRepository.save(any(Todo.class))).willReturn(todo);
+			
+			mockMvc.perform(MockMvcRequestBuilders.post("/api/todos")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content(asJsonString(request)))
+			.andExpect(status().isCreated())
+			.andExpect(jsonPath("$.id").value(1L))
+			.andExpect(jsonPath("$.title").value("Test Title"))
+			.andExpect(jsonPath("$.description").value("Test Description"))
+			.andExpect(jsonPath("$.dueDate[0]").value(2024))
+			.andExpect(jsonPath("$.dueDate[1]").value(5))
+			.andExpect(jsonPath("$.dueDate[2]").value(30))
+			.andExpect(jsonPath("$.completed").value(false));
+		}
+	\end{lstlisting}
+	
+	\item \textbf{Green Phase}: Anschließend wurde der minimal notwendige Code geschrieben, um den Test erfolgreich zu bestehen (Green). In diesem Schritt wird nur so viel implementiert, dass der Testfall erfüllt wird.
+	
+	Beispiel: Die Implementierung des addTodo-Endpunkts im TodoController.
+	\begin{lstlisting}
+		@PostMapping
+		public ResponseEntity<Todo> addTodo(@RequestBody TodoRequest todoRequest) {
+			Todo todo = new Todo();
+			todo.setTitle(todoRequest.getTitle());
+			todo.setDescription(todoRequest.getDescription());
+			todo.setDueDate(todoRequest.getDueDate());
+			todo.setCompleted(todoRequest.isCompleted());
+			Todo savedTodo = todoRepository.save(todo);
+			return new ResponseEntity<>(savedTodo, HttpStatus.CREATED);
+		}
+	\end{lstlisting}
+	
+	\item \textbf{Refactor Phase}: Nach dem erfolgreichen Bestehen des Tests wurde der Code optimiert und verbessert, ohne die Funktionalität zu ändern. Dabei wurde auf Sauberkeit, Lesbarkeit und Wartbarkeit des Codes geachtet.
+	
+	Beispiel: Refaktorierung der Todo-Entität zur Einhaltung von Best Practices und Optimierung der Geschäftslogik.
+	
+\end{enumerate}
+
+Die konsequente Anwendung des TDD-Zyklus gewährleistet, dass die Implementierung kontinuierlich durch Tests begleitet und abgesichert wird und somit zu einem stabilen und fehlerarmen Code führen kann.
