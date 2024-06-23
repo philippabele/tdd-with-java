@@ -45,15 +45,8 @@ public class UserControllerTest {
     @InjectMocks
     private UserController userController;
 
-    /*
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-    }
 
-     */
-
-    @Test       // TODO:
+    @Test
     public void testRegisterUserSuccess() {
         UserRegistrationRequest request = new UserRegistrationRequest("testuser", "password", "password");
 
@@ -64,6 +57,7 @@ public class UserControllerTest {
         ResponseEntity<?> response = userController.registerUser(request, result);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response);
         assertNotNull(response.getBody());
         assertEquals("testuser", ((User) response.getBody()).getUsername());
     }

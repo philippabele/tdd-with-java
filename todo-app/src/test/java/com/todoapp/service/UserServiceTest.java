@@ -33,22 +33,17 @@ public class UserServiceTest {
 
     @Test
     public void testSaveUser() {
-        // Mock data
         String username = "testuser";
         String plainPassword = "testpassword";
         String encodedPassword = "encodedPassword"; // Mock encoded password
         User mockUser = new User(username, encodedPassword);
 
-        // Mock behavior of userRepository.save()
         when(userRepository.save(any(User.class))).thenReturn(mockUser);
 
-        // Mock behavior of passwordEncoder.encode()
         when(passwordEncoder.encode(plainPassword)).thenReturn(encodedPassword);
 
-        // Call the service method
         User savedUser = userService.saveUser(mockUser);
 
-        // Assertions
         assertNotNull(savedUser);
         assertEquals(username, savedUser.getUsername());
         assertEquals(encodedPassword, savedUser.getPassword());
@@ -56,59 +51,44 @@ public class UserServiceTest {
 
     @Test
     public void testFindUserByUsername() {
-        // Mock data
         String username = "testuser";
         User mockUser = new User(username, "encodedPassword");
 
-        // Mock behavior of userRepository.findByUsername()
         when(userRepository.findByUsername(username)).thenReturn(Optional.of(mockUser));
 
-        // Call the service method
         Optional<User> foundUserOptional = userService.findUserByUsername(username);
 
-        // Assertions
         assertTrue(foundUserOptional.isPresent());
         assertEquals(username, foundUserOptional.get().getUsername());
     }
 
     @Test
     public void testSaveUser_UsernameAlreadyExists() {
-        // Mock data
         String existingUsername = "existinguser";
-        User existingUser = new User(existingUsername, "existingEncodedPassword");
+        User existingUser = new User("existinguser", "existingEncodedPassword");
 
-        // Mock behavior of userRepository.existsByUsername()
         when(userRepository.existsByUsername(existingUsername)).thenReturn(true);
 
-        // Create a new user with existing username
         User newUser = new User(existingUsername, "newEncodedPassword");
 
-        // Mock behavior of passwordEncoder.encode()
         when(passwordEncoder.encode(newUser.getPassword())).thenReturn(newUser.getPassword());
 
-        // Mock behavior of userRepository.save()
         when(userRepository.save(any(User.class))).thenThrow(new RuntimeException("Username already exists"));
 
-        // Call the service method and assert exception
         RuntimeException exception = assertThrows(RuntimeException.class, () -> userService.saveUser(newUser));
 
-        // Assertion
         assertEquals("Username already exists", exception.getMessage());
     }
 
 
     @Test
     public void testFindUserByUsername_NotFound() {
-        // Mock data
         String nonExistentUsername = "nonexistentuser";
 
-        // Mock behavior of userRepository.findByUsername()
         when(userRepository.findByUsername(nonExistentUsername)).thenReturn(Optional.empty());
 
-        // Call the service method
         Optional<User> foundUserOptional = userService.findUserByUsername(nonExistentUsername);
 
-        // Assertions
         assertTrue(foundUserOptional.isEmpty());
     }
 }

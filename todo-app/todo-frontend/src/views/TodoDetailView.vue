@@ -155,17 +155,3 @@ export default {
 }
 </style>
 
-/*
-try
-const token = localStorage.getItem('token');
-await axios.put(`http://localhost:8080/todos/${this.todo.id}`, this.todo, {
-headers: {
-'Authorization': `Bearer ${token}`
-}
-});
-this.$router.push('/home');
-} catch (error) {
-console.error('Error updating todo:', error);
-}
-
-*/

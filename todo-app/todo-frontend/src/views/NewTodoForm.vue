@@ -45,7 +45,7 @@ export default {
     },
     async createTodo() {
       try {
-        if (!this.isLoggedIn) return;
+        if (this.isLoggedIn) return;
         const token = localStorage.getItem('token');
         const response = await axios.post('http://localhost:8080/todos', this.todo, {
           headers: {
@@ -60,7 +60,7 @@ export default {
     },
     computed: {
       isLoggedIn() {
-        return !!localStorage.getItem('token');
+        return !localStorage.getItem('token');
       },
     },
   }

@@ -49,19 +49,15 @@ public class UserServiceIntegrationTest {
 
     @Test
     public void testSaveUser() {
-        // Mock Daten
         String username = "testuser";
         String plainPassword = "testpassword";
         User user = new User(username, plainPassword);
 
-        // Benutzer speichern
         User savedUser = userService.saveUser(user);
 
-        // Assertions
         assertNotNull(savedUser.getId());
         assertEquals(username, savedUser.getUsername());
 
-        // Überprüfen, ob der Benutzer in der Datenbank gespeichert wurde
         Optional<User> retrievedUser = userRepository.findById(savedUser.getId());
         assertTrue(retrievedUser.isPresent());
         assertEquals(username, retrievedUser.get().getUsername());

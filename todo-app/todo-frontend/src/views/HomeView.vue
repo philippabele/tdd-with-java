@@ -37,7 +37,7 @@ export default {
   methods: {
     async fetchTodos() {
       try {
-        if (!this.isLoggedIn) return;
+        if (this.isLoggedIn) return;
         const token = localStorage.getItem('token');
         const response = await axios.get('http://localhost:8080/todos', {
           headers: {
@@ -51,7 +51,7 @@ export default {
     },
     async deleteTodo(id) {
       try {
-        if (!this.isLoggedIn) return;
+        if (this.isLoggedIn) return;
         const token = localStorage.getItem('token');
         await axios.delete(`http://localhost:8080/todos/${id}`, {
           headers: {
@@ -73,7 +73,7 @@ export default {
   },
   computed: {
     isLoggedIn() {
-      return !!localStorage.getItem('token');
+      return !localStorage.getItem('token');
     },
   },
   created() {

@@ -103,32 +103,5 @@ class AuthenticationServiceTest {
         });
     }
 
-    /*
-    @Autowired
-    private AuthenticationService authenticationService;
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-
-    @Test
-    public void testRegisterAndAuthenticateUser() {
-        UserRegistrationRequest registrationRequest = new UserRegistrationRequest("testuser", "password", "password");
-        User registeredUser = authenticationService.register(registrationRequest);
-
-        assertNotNull(registeredUser);
-        assertEquals("testuser", registeredUser.getUsername());
-        assertTrue(passwordEncoder.matches("password", registeredUser.getPassword()));
-
-        UserLoginRequest loginRequest = new UserLoginRequest("testuser", "password");
-        User authenticatedUser = authenticationService.authenticate(loginRequest);
-
-        assertNotNull(authenticatedUser);
-        assertEquals("testuser", authenticatedUser.getUsername());
-    }
-
-     */
 }
