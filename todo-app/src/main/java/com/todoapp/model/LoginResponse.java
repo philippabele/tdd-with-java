@@ -1,4 +1,4 @@
-package com.todoapp.controller;
+package com.todoapp.model;
 
 public class LoginResponse {
 

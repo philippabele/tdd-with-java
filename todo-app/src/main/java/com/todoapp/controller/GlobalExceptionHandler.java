@@ -2,6 +2,9 @@ package com.todoapp.controller;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
+import jakarta.validation.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
@@ -60,19 +63,17 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ProblemDetail> handleResponseStatusException(ResponseStatusException exception) {
         ProblemDetail errorDetail = ProblemDetail.forStatusAndDetail(
                 HttpStatusCode.valueOf(exception.getStatusCode().value()), exception.getMessage());
-
         return ResponseEntity.status(exception.getStatusCode()).body(errorDetail);
     }
 
-/*
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ProblemDetail> handleConstraintViolationException(ConstraintViolationException exception) {
         ProblemDetail errorDetail = ProblemDetail.forStatusAndDetail(
-                HttpStatusCode.BAD_REQUEST, "Validation failed: " + exception.getMessage());
-        // Set other properties if needed
+                HttpStatus.BAD_REQUEST, "Validation failed: " + exception.getMessage());
         return ResponseEntity.badRequest().body(errorDetail);
     }
 
+    /*
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ProblemDetail> handleMethodArgumentNotValid(MethodArgumentNotValidException exception) {
         List<String> errorMessages = exception.getBindingResult().getFieldErrors().stream()
@@ -80,27 +81,31 @@ public class GlobalExceptionHandler {
                 .collect(Collectors.toList());
 
         ProblemDetail errorDetail = ProblemDetail.forStatusAndDetail(
-                HttpStatusCode.BAD_REQUEST, "Validation failed: " + errorMessages);
-        // Set other properties if needed
+                //HttpStatusCode.BAD_REQUEST, "Validation failed: " + errorMessages); // tODO:
+                HttpStatus.BAD_REQUEST,"Validation failed: " + errorMessages);
         return ResponseEntity.badRequest().body(errorDetail);
     }
+    */
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ProblemDetail> handleDataIntegrityViolationException(DataIntegrityViolationException exception) {
         ProblemDetail errorDetail = ProblemDetail.forStatusAndDetail(
-                HttpStatusCode.CONFLICT, "Data integrity violation: " + exception.getMessage());
-        // Set other properties if needed
+                HttpStatus.CONFLICT, "Data integrity violation: " + exception.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorDetail);
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ProblemDetail> handleAccessDeniedException(AccessDeniedException exception) {
         ProblemDetail errorDetail = ProblemDetail.forStatusAndDetail(
-                HttpStatusCode.FORBIDDEN, "Access denied: " + exception.getMessage());
-        // Set other properties if needed
+                HttpStatus.NOT_FOUND, "Access denied: " + exception.getMessage());
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorDetail);
     }
 
- */
-
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ProblemDetail> handleRuntimeException(RuntimeException exception) {
+        ProblemDetail errorDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
+        errorDetail.setProperty("description", "Internal Server Error");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetail);
+    }
 }
