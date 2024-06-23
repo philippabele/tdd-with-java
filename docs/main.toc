@@ -20,21 +20,21 @@
 \contentsline {section}{\numberline {4.3}Beispieltests und Testfälle}{19}{section.4.3}%
 \contentsline {section}{\numberline {4.4}Unit-Tests}{19}{section.4.4}%
 \contentsline {section}{\numberline {4.5}Integrationstests}{20}{section.4.5}%
-\contentsline {section}{\numberline {4.6}Akzeptanztests}{21}{section.4.6}%
-\contentsline {chapter}{\numberline {5}Frontend Entwicklung}{23}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Projektanforderung an Frontend-Entwicklung}{23}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Technologiestack}{24}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Projektstruktur}{24}{section.5.3}%
-\contentsline {section}{\numberline {5.4}Routing}{25}{section.5.4}%
-\contentsline {section}{\numberline {5.5}Authentifizierung und Autorisierung}{25}{section.5.5}%
-\contentsline {section}{\numberline {5.6}HTTP-Anfragen}{25}{section.5.6}%
-\contentsline {section}{\numberline {5.7}State Management}{26}{section.5.7}%
-\contentsline {section}{\numberline {5.8}Styling}{26}{section.5.8}%
-\contentsline {chapter}{\numberline {6}Deployment}{27}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Datenbank einrichten}{27}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Backend starten}{28}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Frontend starten}{28}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Zugriff auf Todo-Liste Webanwendung}{28}{section.6.4}%
-\contentsline {chapter}{\numberline {7}Fazit}{30}{chapter.7}%
-\contentsline {chapter}{Literaturverzeichnis}{33}{chapter*.18}%
+\contentsline {section}{\numberline {4.6}Akzeptanztests}{20}{section.4.6}%
+\contentsline {chapter}{\numberline {5}Frontend Entwicklung}{22}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Projektanforderung an Frontend-Entwicklung}{22}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Technologiestack}{23}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Projektstruktur}{23}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Routing}{24}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Authentifizierung und Autorisierung}{24}{section.5.5}%
+\contentsline {section}{\numberline {5.6}HTTP-Anfragen}{24}{section.5.6}%
+\contentsline {section}{\numberline {5.7}State Management}{25}{section.5.7}%
+\contentsline {section}{\numberline {5.8}Styling}{25}{section.5.8}%
+\contentsline {chapter}{\numberline {6}Deployment}{26}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Datenbank einrichten}{26}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Backend starten}{27}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Frontend starten}{27}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Zugriff auf Todo-Liste Webanwendung}{27}{section.6.4}%
+\contentsline {chapter}{\numberline {7}Fazit}{29}{chapter.7}%
+\contentsline {chapter}{Literaturverzeichnis}{32}{chapter*.18}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

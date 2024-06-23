@@ -118,29 +118,19 @@ Integrationstests wurden durchgeführt, um das Zusammenspiel verschiedener Kompo
 Ein Beispiel ist der Integrationstest für die Benutzerregistrierung über den \texttt{UserController}.
 
 \begin{lstlisting}[language=Java]
-	@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-	public class UserRegistrationAcceptanceTest {
+	
+	@Test
+	public void testRegisterUserSuccess() throws Exception {
+		UserRegistrationRequest request = new UserRegistrationRequest();
+		request.setUsername("integrationtestuser");
+		request.setPassword("password");
+		request.setConfirmPassword("password");
 		
-		@LocalServerPort
-		private int port;
+		ResultActions result = mockMvc.perform(post("/register")
+		.contentType(MediaType.APPLICATION_JSON)
+		.content(objectMapper.writeValueAsString(request)));
 		
-		@Autowired
-		private TestRestTemplate restTemplate;
-		
-		@Test
-		public void testRegisterUser() {
-			String url = "http://localhost:" + port + "/register";
-			UserRegistrationRequest request = new UserRegistrationRequest("testuser", "password", "password");
-			
-			HttpHeaders headers = new HttpHeaders();
-			HttpEntity<UserRegistrationRequest> entity = new HttpEntity<>(request, headers);
-			
-			// Send HTTP POST request
-			ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-			
-			// Check if the response status code is 409 (CONFLICT)
-			assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
-		}
+		result.andExpect(status().isOk());
 	}
 \end{lstlisting}
 
@@ -153,30 +143,22 @@ Ein Beispiel ist der Akzeptanztest für die Benutzerregistrierung über die REST
 
 
 \begin{lstlisting}[language=Java]
-	@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-	public class UserRegistrationAcceptanceTest {
+
+	@Test
+	public void testRegisterUser() {
+		String url = "http://localhost:" + port + "/register";
+		UserRegistrationRequest request = new UserRegistrationRequest("testuser", "password", "password");
 		
-		@LocalServerPort
-		private int port;
+		HttpHeaders headers = new HttpHeaders();
+		HttpEntity<UserRegistrationRequest> entity = new HttpEntity<>(request, headers);
 		
-		@Autowired
-		private TestRestTemplate restTemplate;
+		// Send HTTP POST request
+		ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 		
-		@Test
-		public void testRegisterUser() {
-			String url = "http://localhost:" + port + "/register";
-			UserRegistrationRequest request = new UserRegistrationRequest("testuser", "password", "password");
-			
-			HttpHeaders headers = new HttpHeaders();
-			HttpEntity<UserRegistrationRequest> entity = new HttpEntity<>(request, headers);
-			
-			// Send HTTP POST request
-			ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
-			
-			// Check if the response status code is 409 (CONFLICT)
-			assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
-		}
+		// Check if the response status code is 409 (CONFLICT)
+		assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
 	}
+	
 \end{lstlisting}
 
 Diese strukturierte Vorgehensweise durch TDD unterstützt eine robuste und fehlerarme Implementierung der Todo-Liste.
